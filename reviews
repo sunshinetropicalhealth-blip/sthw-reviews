@@ -1,2 +1,5 @@
 npm install netlify-cli -g
 npm install jsonwebtoken @supabase/supabase-js
+git add .
+git commit -m "add review moderation function"
+git push
