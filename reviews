@@ -1,1 +1,2 @@
 npm install netlify-cli -g
+npm install jsonwebtoken @supabase/supabase-js
