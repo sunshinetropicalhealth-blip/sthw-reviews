@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  
+  <title>About | Sunshine Tropical Health & Wellness</title>
+<!-- Required: responsive behavior on mobile/tablet -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- Recommended: character encoding + compatibility -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Recommended: page summary (SEO). Make this unique per page if possible -->
+<meta name="description" content="Sunshine Tropical Health & Wellness provides licensed primary care and telehealth services for Florida residents. Easy scheduling and compassionate care.">
+
+<!-- Recommended: search engine behavior (optional) -->
+<meta name="robots" content="index,follow">
+
+<!-- Recommended: theme color for mobile browser UI (works best if your header is teal) -->
+<meta name="theme-color" content="#008080">
+<!-- Open Graph (Facebook/LinkedIn/etc.) -->
+<meta property="og:site_name" content="Sunshine Tropical Health & Wellness">
+<meta property="og:title" content="Sunshine Tropical Health & Wellness">
+<meta property="og:description" content="Licensed Primary Care & Telehealth Services serving Florida residents. Easy scheduling and compassionate care you can trust.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.sunshinetropicalhealth.com/">
+<meta property="og:image" content="https://www.sunshinetropicalhealth.com/assets/img/og-image.png">
+
+<!-- Twitter/X (still useful for previews in many places) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sunshine Tropical Health & Wellness">
+<meta name="twitter:description" content="Licensed Primary Care & Telehealth Services serving Florida residents. Easy scheduling and compassionate care you can trust.">
+<meta name="twitter:image" content="https://www.sunshinetropicalhealth.com/assets/img/og-image.png">
+<!-- Canonical helps avoid duplicate URL issues -->
+<link rel="canonical" href="https://www.sunshinetropicalhealth.com/">
+
+<!-- Favicons (adjust paths to your actual files) -->
+<link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="assets/favicon/favicon-16x16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+  
+
+
+  <link rel="stylesheet" href="css/style.css" />
+
+ <style>
+    /* =========================================================
+       ABOUT PAGE — CLEAN + CENTERED (no conflicts)
+       - Scoped to .about-page
+       - Adds BRAND mobile menu background/panel
+       - Ensures page background is consistent (no white)
+       - ✅ Upgraded professional footer (matches Home page footer style)
+       ========================================================= */
+
+    /* ✅ Force consistent page background on this page */
+    html, body{ 
+      background: #F2F2F2; 
+    }
+
+    body.about-page{ background:#F2F2F2; min-height:100vh; }
+
+    /* ADA: Skip link */
+    .skip-link{
+      position:absolute;
+      left:-999px;
+      top:10px;
+      background:#fff;
+      color:#000;
+      padding:10px 12px;
+      border-radius:10px;
+      border:2px solid #000;
+      z-index:2000;
+      text-decoration:none;
+      font-weight:800;
+    }
+    .skip-link:focus{ left:10px; }
+
+    /* Page layout */
+    body.about-page main{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 16px 60px;
+      text-align: center;
+    }
+
+    /* Keep header content above any motion layers (safe even if none exist) */
+    body.about-page header > *{ position: relative; z-index: 7; }
+
+    /* -------------------------
+       HEADER (ABOUT PAGE ONLY)
+    -------------------------- */
+
+    body.about-page header .header-container{
+      position: relative;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+      height: 160px;
+      padding:12px 14px;
+      margin:10px auto;
+      border-radius:14px;
+
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.24);
+      box-shadow: 0 8px 18px rgba(2, 8, 23, 0.10);
+
+      flex-wrap:nowrap; /* desktop stays one row */
+    }
+
+    /* Logo group (image + stacked title) */
+    body.about-page header .logo{
+      position: relative;
+      display:flex;
+      align-items:center;
+      align-self: start;
+      transform: translateY(-20px);
+      gap:14px;
+      border-radius:20px;
+      flex:0 0 auto;
+      text-decoration:none;
+    }
+
+    /* Gold glow behind logo */
+    body.about-page header .logo::before{
+      content:"";
+      position:absolute;
+      inset:-12px -14px;
+      border-radius: 26px;
+      background: radial-gradient(circle at 35% 30%,
+        rgba(255,224,130,.55),
+        rgba(242,178,51,.25) 35%,
+        rgba(0,0,0,0) 70%);
+      filter: blur(2px);
+      opacity: .9;
+      z-index: -1;
+      pointer-events:none;
+    }
+
+    body.about-page header .logo img{
+      height:clamp(200px, 08vw, 300px);
+      width:auto;
+      object-fit:contain;
+      display:block;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,.25));
+      flex:0 0 auto;
+    }
+
+    /* H1 smaller + allow wrapping */
+    body.about-page header .logo h1{
+      color:#fff !important;
+      margin:0;
+      font-weight:800;
+      line-height:1.05;
+      font-size: clamp(16px, 1.6vw, 22px) !important;
+      white-space: normal !important;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      text-shadow: 0 2px 10px rgba(0,0,0,.18);
+    }
+
+    /* Force last word to its own line */
+    body.about-page header .logo h1 .last-word{
+      display:block;
+    }
+
+    /* Nav container */
+    body.about-page header #nav-menu{
+      display:block;
+      flex:1 1 auto;
+      min-width:0;
+    }
+
+    /* Desktop: keep nav one line (scroll if tight) */
+    body.about-page header #nav-menu ul{
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:20px;
+      margin:0;
+      padding:0;
+
+      flex-wrap:nowrap;
+      white-space:nowrap;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    body.about-page header #nav-menu ul::-webkit-scrollbar{ height:6px; }
+    body.about-page header #nav-menu ul::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.25);
+      border-radius: 999px;
+    }
+
+    body.about-page header #nav-menu ul li a{
+      color:#ffffff;
+      font-weight:800;
+      padding:10px 14px;
+      border-radius:14px;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.22);
+      transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+    }
+
+    body.about-page header #nav-menu ul li a:hover{
+      background: rgba(255,255,255,.28);
+      box-shadow: 0 8px 16px rgba(2,8,23,.10);
+      transform: translateY(-1px);
+    }
+
+    body.about-page header #nav-menu ul li a.active{
+      background: rgba(255,224,130,.26);
+      border: 1px solid rgba(255,224,130,.35);
+      color:#0f172a;
+    }
+
+    /* Hamburger (mobile only) */
+    body.about-page header .hamburger{
+      display:none;
+      flex-direction:column;
+      gap:6px;
+      cursor:pointer;
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.22);
+      box-shadow: 0 8px 16px rgba(2,8,23,.10);
+      padding:12px;
+      border-radius:12px;
+      -webkit-tap-highlight-color: transparent;
+      flex: 0 0 auto;
+    }
+
+    body.about-page header .hamburger span{
+      width:28px;
+      height:3px;
+      background:#ffffff;
+      border-radius:999px;
+      display:block;
+      transition: transform .18s ease, opacity .18s ease;
+    }
+
+    /* Hamburger -> X when open */
+    body.about-page header .hamburger[aria-expanded="true"] span:nth-child(1){
+      transform: translateY(9px) rotate(45deg);
+    }
+    body.about-page header .hamburger[aria-expanded="true"] span:nth-child(2){
+      opacity: 0;
+    }
+    body.about-page header .hamburger[aria-expanded="true"] span:nth-child(3){
+      transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* -------------------------
+       ABOUT CONTENT
+    -------------------------- */
+
+    body.about-page section.about{
+      max-width: 1000px;
+      margin: 18px auto 0;
+      padding: 32px 16px;
+      background: rgba(255,255,255,.90);
+      border: 1px solid rgba(226,232,240,.9);
+      border-radius: 16px;
+      box-shadow: 0 10px 22px rgba(2, 8, 23, .06);
+      text-align: center;
+    }
+
+    body.about-page section.about h2{
+      margin: 0 0 18px;
+      color: #008080;
+      text-align: center;
+    }
+
+    body.about-page .about-content{
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    body.about-page .about-content img{
+      width: 260px;
+      max-width: 85vw;
+      border-radius: 15px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    }
+
+    body.about-page .about-text{
+      max-width: 640px;
+      text-align: left;
+    }
+
+    body.about-page .about-text p{
+      margin: 0 0 14px;
+      line-height: 1.7;
+      color: #475569;
+      font-size: 1.05rem;
+    }
+
+    /* Scroll animations */
+    body.about-page .animate{
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease-out;
+    }
+    body.about-page .animate.active{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ✅ MOBILE MENU: brand colors + full-width panel */
+    @media (max-width:980px){
+      body.about-page header .header-container{
+        flex-wrap:wrap;
+      }
+
+      body.about-page header .hamburger{
+        display:flex;
+      }
+
+      body.about-page header #nav-menu{
+        display:none;
+        width:100%;
+
+        /* brand panel */
+        margin-top: 12px;
+        background: linear-gradient(180deg, rgba(0,128,128,.96), rgba(0,107,107,.96));
+        border: 1px solid rgba(255,255,255,.22);
+        border-radius: 16px;
+        box-shadow: 0 14px 30px rgba(2,8,23,.18);
+        padding: 10px 10px 12px;
+      }
+
+      body.about-page header #nav-menu.show{
+        display:block;
+      }
+
+      body.about-page header #nav-menu ul{
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: stretch;
+        gap: 10px;
+
+        padding-top: 6px;
+        white-space:normal;
+        overflow-x:visible;
+      }
+
+      body.about-page header #nav-menu ul li a{
+        width:100%;
+        justify-content:center;
+        padding:12px 14px;
+        border-radius:14px;
+        background: rgba(255,255,255,.14);
+        border: 1px solid rgba(255,255,255,.18);
+      }
+
+      body.about-page header #nav-menu ul li a:hover{
+        background: rgba(255,255,255,.22);
+        transform: none;
+      }
+
+      body.about-page header #nav-menu ul li a.active{
+        background: rgba(255,224,130,.28);
+        border: 1px solid rgba(255,224,130,.40);
+        color: #0f172a;
+      }
+    }
+
+    @media (max-width:768px){
+      body.about-page .about-text{ text-align:left; margin:0 auto; }
+      body.about-page .about-content{ gap:18px; }
+      body.about-page section.about{ padding:26px 14px; }
+    }
+
+    /* Safe with topbar + sticky header */
+    body.about-page .topbar ~ main{ margin-top: 0; }
+
+    /* =========================
+       ✅ NEW: PROFESSIONAL FOOTER (matches Home page)
+       ========================= */
+    body.about-page footer{
+       background: linear-gradient(135deg, #006b6b, #008080);
+       color: #fff;
+       margin-top: 26px;
+       padding: 22px 16px 18px;
+       position: relative;
+      }
+
+    body.about-page .footer-wrap{
+      padding: 0 0 18px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.9fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    body.about-page .footer-brand{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+    }
+
+    body.about-page .footer-logo{
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.20);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      flex: 0 0 auto;
+      box-shadow: 0 10px 18px rgba(2,8,23,.16);
+    }
+    body.about-page .footer-logo img{
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.14));
+    }
+
+    body.about-page .footer-title{
+      margin: 0;
+      font-weight: 900;
+      line-height: 1.2;
+      font-size: 15px;
+      color: #fff;
+    }
+
+    body.about-page .footer-sub{
+      margin: 6px 0 0;
+      color: rgba(255,255,255,.82);
+      line-height: 1.5;
+      font-weight: 700;
+      font-size: 12.5px;
+      max-width: 46ch;
+    }
+
+    body.about-page .footer-col h4{
+      margin: 0 0 10px;
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.9);
+    }
+
+    body.about-page .footer-links{
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    body.about-page .footer-links a{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      transition: background .15s ease;
+      font-weight: 800;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.95);
+      text-decoration: none;
+    }
+
+    body.about-page .footer-links a:hover{
+      background: rgba(255,255,255,.18);
+      box-shadow: 0 10px 18px rgba(2,8,23,.16);
+      transform: translateY(-1px);
+    }
+
+    body.about-page .footer-badges{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    body.about-page .footer-badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      font-weight: 900;
+      font-size: 11.5px;
+      color: rgba(255,255,255,.92);
+      white-space: nowrap;
+    }
+
+    body.about-page .footer-badge .ico{
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,224,130,.22);
+      border: 1px solid rgba(255,224,130,.28);
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    body.about-page .footer-note{
+      margin: 12px 0 0;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(2,8,23,.20);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.82);
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    body.about-page .footer-bottom{
+      border-top: 1px solid rgba(255,255,255,.14);
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: rgba(255,255,255,.72);
+    }
+
+    @media (max-width: 980px){
+      body.about-page .footer-wrap{
+        grid-template-columns: 1fr;
+      }
+      body.about-page .footer-bottom{
+        font-size: 11.5px;
+        padding: 12px 0;
+      }
+    }
+
+    /* =========================
+       CART (shared)
+       ========================= */
+
+    /* Floating Cart Button */
+    .cart-fab{
+      position: fixed;
+      right: 18px;
+      bottom: 86px; /* stays above Book button */
+      z-index: 9999;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background: rgba(0,128,128,.92);
+      color:#fff;
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 18px 40px rgba(2,8,23,.20);
+      padding: 12px 14px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight: 900;
+    }
+
+    .cart-fab .count{
+      background: rgba(255,224,130,.95);
+      color:#0f172a;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-weight: 1000;
+    }
+
+    /* Cart Overlay + Drawer */
+    .cart-overlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 8, 23, .55);
+      z-index: 9998;
+      display:none;
+    }
+    .cart-overlay.show{ display:block; }
+
+    .cart-drawer{
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: min(420px, 92vw);
+      background: #ffffff;
+      z-index: 9999;
+      transform: translateX(100%);
+      transition: transform .22s ease;
+      border-left: 1px solid rgba(226,232,240,.9);
+      box-shadow: -18px 0 40px rgba(2,8,23,.18);
+      display:flex;
+      flex-direction:column;
+    }
+    .cart-drawer.show{ transform: translateX(0); }
+
+    .cart-head{
+      padding: 14px 14px;
+      border-bottom: 1px solid rgba(226,232,240,.9);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .cart-head h3{ margin:0; color:#0f172a; }
+
+    .cart-body{
+      padding: 12px 14px;
+      overflow:auto;
+      flex: 1 1 auto;
+    }
+
+    .cart-item{
+      border: 1px solid rgba(226,232,240,.9);
+      border-radius: 14px;
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-bottom: 10px;
+    }
+    .cart-item .row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .qty{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .qty button{
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(2, 8, 23, .12);
+      background: rgba(2, 8, 23, .04);
+      cursor:pointer;
+      font-weight: 1000;
+      font-family: inherit;
+    }
+
+    /* ✅ red X remove button */
+    .remove-btn{
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(239, 68, 68, .35);
+      background: rgba(239, 68, 68, .15);
+      color: #b91c1c;
+      font-weight: 1000;
+      font-size: 16px;
+      cursor: pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition: background .15s ease, transform .12s ease, box-shadow .12s ease;
+      font-family: inherit;
+      line-height: 1;
+      padding: 0;
+    }
+    .remove-btn:hover{
+      background: rgba(239, 68, 68, .25);
+      box-shadow: 0 8px 16px rgba(239,68,68,.25);
+      transform: translateY(-1px);
+    }
+
+    .cart-foot{
+      border-top: 1px solid rgba(226,232,240,.9);
+      padding: 12px 14px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .cart-total{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-weight: 1000;
+      color:#0f172a;
+    }
+
+    .cart-warn{
+      display:none;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(239, 68, 68, .10);
+      border: 1px solid rgba(239, 68, 68, .25);
+      color:#991b1b;
+      font-weight: 900;
+      line-height:1.35;
+    }
+    .cart-warn.show{ display:block; }
+
+    /* Mobile spacing with your Book button */
+    @media (max-width:520px){
+      .cart-fab{
+        right: 15px;
+        bottom: 78px;
+      }
+    }
+    .services-dropdown a{
+  font-weight: 500 !important;
+  letter-spacing: .01em;
+}
+
+/* main nav links */
+body.about-page header #nav-menu > ul > li > a{
+  font-weight: 800;
+}
+
+/* dropdown links */
+body.about-page header #nav-menu .services-dropdown a{
+  font-weight: 400 !important;
+  letter-spacing: 0;
+}
+/* =========================================
+   MOBILE: SERVICES DROPDOWN TAP TO OPEN
+   ========================================= */
+@media (max-width:980px){
+
+  /* make the Services item stack neatly */
+  body.about-page header #nav-menu ul li.services-item{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+  }
+
+  /* button/link row for Services */
+  body.about-page header #nav-menu ul li.services-item > a,
+  body.about-page header #nav-menu ul li.services-item > button{
+    width:100%;
+    justify-content:center;
+    padding:12px 14px;
+    border-radius:14px;
+    background: rgba(255,255,255,.14);
+    border: 1px solid rgba(255,255,255,.18);
+    color:#fff;
+    font-weight:800;
+    cursor:pointer;
+  }
+
+  /* hide submenu by default on mobile */
+  body.about-page header #nav-menu ul li.services-item .services-dropdown{
+    display:none;
+    flex-direction:column;
+    gap:8px;
+    margin-top:8px;
+    padding:10px;
+    border-radius:14px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+
+  /* show submenu only when active */
+  body.about-page header #nav-menu ul li.services-item.open .services-dropdown{
+    display:flex;
+  }
+
+  /* submenu links */
+  body.about-page header #nav-menu ul li.services-item .services-dropdown a{
+    width:100%;
+    justify-content:center;
+    padding:10px 12px;
+    border-radius:12px;
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.14);
+    color:#fff;
+    text-decoration:none;
+    font-weight:500 !important;
+  }
+
+  body.about-page header #nav-menu ul li.services-item .services-dropdown a:hover{
+    background: rgba(255,255,255,.18);
+  }
+}
+  </style>
+  
+</head>
+
+<body class="about-page">
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- Topbar -->
+  <div class="topbar" role="region" aria-label="Clinic contact details">
+    <div class="wrap">
+      <div class="left">
+        <span class="pill"><span class="dot" aria-hidden="true"></span> Currently Only Telehealth available</span>
+        <span class="pill">Mon – Fri: 6 pm – 8 pm</span>
+        <span class="pill">Sat – Sun: 9 am – 6 pm</span>
+      </div>
+      <div class="right">
+        <span class="pill">(407) 686-5593</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header/Nav -->
+  <header>
+    <div class="container header-container">
+      <!-- Logo -->
+      <a class="logo" href="index.html" aria-label="Home">
+        <img src="assets/img/STHW logo.png" alt="Sunshine Tropical Health & Wellness Logo">
+        <h1>
+          Sunshine Tropical Health
+          <span class="last-word">&amp; Wellness</span>
+        </h1>
+      </a>
+
+      <!-- Hamburger (mobile) -->
+      <button class="hamburger" id="hamburger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <!-- Navigation -->
+      <nav id="nav-menu" aria-label="Primary navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a class="active" href="about.html" aria-current="page">About</a></li>
+
+          <!-- ✅ Services dropdown added without deleting existing Services link -->
+          <li class="has-dropdown">
+            <a href="services.html" class="dropdown-toggle">Services</a>
+            <div class="services-dropdown" aria-label="Services menu">
+            <div class="dropdown-label">Our Services</div>
+            <a href="services.html#primary-care">Primary Care</a>
+            <a href="services.html#chronic-condition">Chronic Condition Management</a>
+            <a href="services.html#preventive-wellness">At-Home Routine &amp; Sick Visits</a>
+            <a href="services.html#telehealth">Telehealth</a>
+            <a href="services.html#weight-loss">Weight Loss Program</a>
+            <a href="services.html#botulinum-injections">Wellness Injections</a>
+            <a href="services.html#iv-nutrition">IV Nutrition Therapy</a>
+          </div>
+          </li>
+
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="patient-portal.html">Patient Portal</a></li>
+          <li><a href="reviews.html">Reviews</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="about animate" aria-label="About the provider">
+      <h2>Meet Marisol Caraballo, APRN</h2>
+
+      <div class="about-content">
+        <img src="assets/img/doctor-marisol.png" alt="Marisol Caraballo, APRN" />
+
+        <div class="about-text">
+          <p>
+            My name is <strong>Marisol Caraballo, APRN</strong> (NPI: 1851700553), and caring for others has been the
+            purpose of my life for more than 30 years. Throughout my career, I’ve worked in adult and geriatric
+            primary care, rheumatology, and spent 21 years in intensive care, where I learned the importance of
+            compassion, patience, and truly listening to my patients.
+          </p>
+
+          <p>
+            I’ve dedicated my life to helping people manage chronic conditions, catching early warning signs, and
+            guiding them toward healthier, longer, and more comfortable lives. As medicine has evolved, so has my
+            passion for helping others feel their best inside and out. I became certified in aesthetics and wellness,
+            completing advanced training in Botox, dermal fillers, IV nutrition therapy, medical weight-loss programs,
+            and hormone replacement therapy. These services allow me to blend science with artistry, offering patients
+            a chance to restore confidence and improve their overall well-being.
+          </p>
+
+          <p>
+            I care for every patient as if they were family, bringing decades of experience, genuine compassion, and a
+            commitment to doing what’s best for them. My goal is simple: to use every bit of knowledge I’ve gained over
+            the years to help you feel healthier, stronger, and truly cared for.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ✅ Change: Book button routes to Contact + Scheduling section -->
+<a href="/patient-portal.html#portal-section"
+   class="book-btn"
+   aria-label="Navigate to secure patient portal section">
+   Book Appointment
+</a>
+
+  <!-- ✅ UPGRADED FOOTER -->
+ <footer role="contentinfo">
+  <div class="container footer-wrap">
+
+    <!-- Brand / Trust -->
+    <div class="footer-col">
+      <div class="footer-brand">
+        <div class="footer-logo" aria-hidden="true">
+          <img src="assets/img/STHW logo.png" alt="">
+        </div>
+        <div>
+          <p class="footer-title">Sunshine Tropical Health &amp; Wellness, LLC</p>
+          <p class="footer-sub">
+            Licensed Primary Care &amp; Telehealth Services serving Florida residents.
+            Clear guidance, easy scheduling, and compassionate care you can trust.
+          </p>
+
+          <div class="footer-badges" aria-label="Compliance and security badges">
+            <span class="footer-badge"><span class="ico">✓</span> HIPAA-Compliant</span>
+            <span class="footer-badge"><span class="ico">🔒</span> SSL Encrypted</span>
+            <span class="footer-badge"><span class="ico">ID</span> NPI Registered</span>
+            <span class="footer-badge"><span class="ico">FL</span> Florida-Based</span>
+          </div>
+
+          <div class="footer-note" role="note">
+            This website does not provide medical advice. For emergencies, call 911.
+            Always consult a licensed healthcare professional for diagnosis and treatment.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="patient-portal.html">Patient Scheduling</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal + Hours -->
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul class="footer-links">
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+        <li><a href="patient-rights.html">Patient Rights</a></li>
+      </ul>
+
+      <!-- ✅ Hours box now correctly under Legal -->
+      <div class="footer-note" style="margin-top:12px;">
+        <strong style="color:#fff;">Hours:</strong> Mon–Fri, 6:00 PM – 8:00 PM (ET) Sat–Sun, 9:00 AM – 6:00 PM (ET)<br>
+        <strong style="color:#fff;">Service:</strong> Telehealth currently available
+      </div>
+    </div>
+  </div>
+
+ <div class="container footer-bottom">
+  © <span id="year"></span> Sunshine Tropical Health &amp; Wellness, LLC. All Rights Reserved.
+</div>
+
+</footer>
+
+  <!-- Cart FAB -->
+
+  <!-- Cart Overlay + Drawer -->
+  <div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="cart-head">
+      <h3>Your Cart</h3>
+      <button class="btn" id="closeCart" aria-label="Close cart">Close</button>
+    </div>
+
+    <div class="cart-body" id="cartItems"></div>
+
+    <div class="cart-foot">
+      <div class="cart-warn" id="cartWarn" role="alert"></div>
+
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+
+      <button class="btn btn-primary" id="checkoutBtn">Continue to Scheduling</button>
+      <button class="btn btn-secondary" id="clearCartBtn">Clear Cart</button>
+
+      <p style="margin:0;color:#475569;font-size:.92rem;line-height:1.4;">
+        Online payment is not enabled yet. This is a “service selection + scheduling” cart.
+      </p>
+    </div>
+  </aside>
+
+  <!-- ✅ IMPORTANT: only include script.js ONCE -->
+  <script src="js/script.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set footer year automatically
+      const y = document.getElementById("year");
+      if (y) y.textContent = String(new Date().getFullYear());
+
+      // Animate on scroll
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+
+      // Hamburger toggle (bind once)
+      const hamburger = document.getElementById('hamburger');
+      const navMenu = document.getElementById('nav-menu');
+
+      if (hamburger && navMenu && !hamburger.dataset.bound) {
+        hamburger.dataset.bound = "true";
+
+        hamburger.addEventListener('click', () => {
+          const isOpen = navMenu.classList.toggle('show');
+          hamburger.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        // close menu after clicking a link (mobile)
+        navMenu.querySelectorAll('a').forEach(a => {
+          a.addEventListener('click', () => {
+            if (window.matchMedia('(max-width: 980px)').matches) {
+              navMenu.classList.remove('show');
+              hamburger.setAttribute('aria-expanded', 'false');
+            }
+          });
+        });
+      }
+
+      // =========================
+      // CART UI (reads same localStorage as services page)
+      // =========================
+      const STORAGE_KEY = "sth_cart_v1";
+      const $ = (sel, root=document) => root.querySelector(sel);
+
+      const cartFab = $("#cartFab");
+      const cartCount = $("#cartCount");
+      const cartOverlay = $("#cartOverlay");
+      const cartDrawer = $("#cartDrawer");
+      const closeCart = $("#closeCart");
+      const cartItems = $("#cartItems");
+      const cartTotal = $("#cartTotal");
+      const checkoutBtn = $("#checkoutBtn");
+      const clearCartBtn = $("#clearCartBtn");
+      const cartWarn = $("#cartWarn");
+
+      function money(n){ return `$${Number(n || 0).toFixed(2)}`; }
+      function loadCart(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }catch(e){ return {}; } }
+      function saveCart(cart){ localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); }
+
+      function cartQtyTotal(cart){
+        return Object.values(cart).reduce((sum, item) => sum + (item.qty || 0), 0);
+      }
+      function cartPriceTotal(cart){
+        return Object.values(cart).reduce((sum, item) => sum + ((item.qty || 0) * (item.price || 0)), 0);
+      }
+
+      function openCart(){
+        cartOverlay.classList.add("show");
+        cartDrawer.classList.add("show");
+        cartOverlay.setAttribute("aria-hidden", "false");
+        cartDrawer.setAttribute("aria-hidden", "false");
+      }
+      function closeCartUI(){
+        cartOverlay.classList.remove("show");
+        cartDrawer.classList.remove("show");
+        cartOverlay.setAttribute("aria-hidden", "true");
+        cartDrawer.setAttribute("aria-hidden", "true");
+      }
+
+      function changeQty(productId, delta){
+        const cart = loadCart();
+        if (!cart[productId]) return;
+        cart[productId].qty = (cart[productId].qty || 0) + delta;
+        if (cart[productId].qty <= 0) delete cart[productId];
+        saveCart(cart);
+        renderCart();
+      }
+
+      function removeItem(productId){
+        const cart = loadCart();
+        delete cart[productId];
+        saveCart(cart);
+        renderCart();
+      }
+
+      function clearCart(){
+        saveCart({});
+        renderCart();
+      }
+
+      function cartToText(cart){
+        const items = Object.values(cart);
+        if (!items.length) return "";
+        const lines = items.map(it => {
+          const label = it.qtyLabel || "Qty";
+          return `• ${it.name} (${label}: ${it.qty}) — ${money((it.price || 0) * (it.qty || 0))}`;
+        });
+        const total = cartPriceTotal(cart);
+        return `Selected Services:\n${lines.join("\n")}\n\nEstimated Total: ${money(total)}`;
+      }
+
+      function renderCart(){
+        const cart = loadCart();
+        const items = Object.values(cart);
+
+        cartCount.textContent = String(cartQtyTotal(cart));
+        cartTotal.textContent = money(cartPriceTotal(cart));
+
+        // share summary for contact-page autofill
+        localStorage.setItem("sth_cart_summary_v1", cartToText(cart));
+
+        if (cartWarn) cartWarn.classList.remove("show");
+
+        if (!items.length){
+          cartItems.innerHTML = `
+            <div style="padding:10px;color:#475569;line-height:1.5;">
+              Your cart is empty. Add a service on the Services page to continue.
+            </div>
+          `;
+          return;
+        }
+
+        cartItems.innerHTML = items.map(item => {
+          const label = item.qtyLabel || "Qty";
+          return `
+            <div class="cart-item" data-id="${item.id}">
+              <div class="row">
+                <strong style="color:#0f172a">${item.name}</strong>
+                <span style="font-weight:1000;color:#008080">${money(item.price)}</span>
+              </div>
+              <div class="row">
+                <span style="color:#475569;font-size:.92rem;">
+                  ${item.category || ""}${item.requiresConsult ? " • Requires consult" : ""}${item.isConsult ? " • Consult" : ""}
+                </span>
+                <div class="qty" aria-label="Quantity controls">
+                  <button type="button" data-dec>-</button>
+                  <strong>${label}: ${item.qty}</strong>
+                  <button type="button" data-inc>+</button>
+                  <button type="button" class="remove-btn" data-remove aria-label="Remove item">✕</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      cartFab?.addEventListener("click", () => { renderCart(); openCart(); });
+      cartOverlay?.addEventListener("click", closeCartUI);
+      closeCart?.addEventListener("click", closeCartUI);
+
+      cartItems?.addEventListener("click", (e) => {
+        const wrap = e.target.closest(".cart-item");
+        if (!wrap) return;
+        const id = wrap.getAttribute("data-id");
+
+        if (e.target.matches("[data-inc]")) changeQty(id, +1);
+        if (e.target.matches("[data-dec]")) changeQty(id, -1);
+        if (e.target.closest("[data-remove]")) removeItem(id);
+      });
+
+      clearCartBtn?.addEventListener("click", clearCart);
+
+      checkoutBtn?.addEventListener("click", () => {
+        localStorage.setItem("sth_autofill_message_v1", "true");
+        closeCartUI();
+        window.location.href = "contact.html#calendar";
+      });
+
+      // =========================
+      // ✅ NEW: Connect Book links to cart flow (same as Home)
+      // - If cart has items: open cart (so user clicks Continue to Scheduling)
+      // - If cart empty: go to scheduling section
+      // =========================
+      function cartHasItems(){
+        const cart = loadCart();
+        return Object.values(cart).some(it => (it?.qty || 0) > 0);
+      }
+
+      const bookLinks = Array.from(document.querySelectorAll(
+        'a[href="patient-portal.html#calendar-section"], a[href="patient-portal.html#calendar"], a.book-btn'
+      ));
+
+      bookLinks.forEach(link => {
+        if (link.dataset.bookBound) return;
+        link.dataset.bookBound = "true";
+
+        link.addEventListener("click", (e) => {
+          if (cartHasItems()){
+            e.preventDefault();
+            renderCart();
+            openCart();
+          } else {
+            // keep your intended routing when empty
+            link.setAttribute("href", "patient-portal.html#calendar-section");
+          }
+        });
+      });
+
+      // init
+      renderCart();
+    });
+  </script>
+</body>
+</html>

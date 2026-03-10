@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+  
+  <title>Terms of Use | Sunshine Tropical Health & Wellness</title>
+  <!-- Required: responsive behavior on mobile/tablet -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- Recommended: character encoding + compatibility -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Recommended: page summary (SEO). Make this unique per page if possible -->
+<meta name="description" content="Sunshine Tropical Health & Wellness provides licensed primary care and telehealth services for Florida residents. Easy scheduling and compassionate care.">
+
+<!-- Recommended: search engine behavior (optional) -->
+<meta name="robots" content="index,follow">
+
+<!-- Recommended: theme color for mobile browser UI (works best if your header is teal) -->
+<meta name="theme-color" content="#008080">
+<!-- Open Graph (Facebook/LinkedIn/etc.) -->
+<meta property="og:site_name" content="Sunshine Tropical Health & Wellness">
+<meta property="og:title" content="Sunshine Tropical Health & Wellness">
+<meta property="og:description" content="Licensed Primary Care & Telehealth Services serving Florida residents. Easy scheduling and compassionate care you can trust.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.sunshinetropicalhealth.com/">
+<meta property="og:image" content="https://www.sunshinetropicalhealth.com/assets/img/og-image.png">
+
+<!-- Twitter/X (still useful for previews in many places) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sunshine Tropical Health & Wellness">
+<meta name="twitter:description" content="Licensed Primary Care & Telehealth Services serving Florida residents. Easy scheduling and compassionate care you can trust.">
+<meta name="twitter:image" content="https://www.sunshinetropicalhealth.com/assets/img/og-image.png">
+<!-- Canonical helps avoid duplicate URL issues -->
+<link rel="canonical" href="https://www.sunshinetropicalhealth.com/">
+
+<!-- Favicons (adjust paths to your actual files) -->
+<link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="assets/favicon/favicon-16x16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+  
+
+  <link rel="stylesheet" href="css/style.css" />
+
+<style>
+/* =========================================================
+   LEGAL PAGES — CLEAN MEDICAL / COMPLIANCE STYLE
+   ✅ Mobile-friendly header/nav/hero/meta/footer
+   ✅ No overflow on small screens
+   ✅ Touch targets + readable type
+   ========================================================= */
+
+body.legal-page main{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 40px 16px 60px;
+  text-align: left;
+}
+
+/* =========================
+   HEADER (LEGAL PAGES)
+   ========================= */
+body.legal-page header > *{ position: relative; z-index: 7; }
+
+body.legal-page header .header-container{
+  position: relative;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+      height: 160px;
+      padding:12px 14px;
+      margin:10px auto;
+      border-radius:14px;
+
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.24);
+      box-shadow: 0 8px 18px rgba(2, 8, 23, 0.10);
+
+      flex-wrap:nowrap; /* desktop stays one row */
+    }
+
+body.legal-page header .logo{
+  position: relative;
+      display:flex;
+      align-items:center;
+      align-self: start;
+      transform: translateY(-20px);
+      gap:14px;
+      border-radius:20px;
+      flex:1 1 auto;
+      text-decoration:none;
+    }
+
+    body.legal-page header .logo::before{
+       content:"";
+      position:absolute;
+      inset:-12px -14px;
+      border-radius: 26px;
+      background: radial-gradient(circle at 35% 30%,
+        rgba(255,224,130,.55),
+        rgba(242,178,51,.25) 35%,
+        rgba(0,0,0,0) 70%);
+      filter: blur(2px);
+      opacity: .9;
+      z-index: -1;
+      pointer-events:none;
+    }
+
+body.legal-page header .logo img{
+  height:clamp(200px, 08vw, 300px);
+      width:auto;
+      object-fit:contain;
+      display:block;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,.25));
+      flex:0 0 auto;
+    }
+
+body.legal-page header .logo h1{
+  margin:0 !important;
+  font-weight: 900 !important;
+  line-height: 1.08 !important;
+  color:#fff !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,.18);
+  font-size: 18px !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere; /* ✅ prevent overflow */
+}
+body.legal-page header .logo h1 .line1{ display:block; }
+body.legal-page header .logo h1 .line2{ display:block; }
+
+body.legal-page header #nav-menu{
+  display:block;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+body.legal-page header #nav-menu ul{
+  list-style:none;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  margin:0;
+  padding:0;
+  white-space:nowrap;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scroll-snap-type: x proximity; /* ✅ nicer swipe */
+}
+body.legal-page header #nav-menu ul li{ scroll-snap-align: start; }
+body.legal-page header #nav-menu ul::-webkit-scrollbar{ height:6px; }
+body.legal-page header #nav-menu ul::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.25);
+  border-radius:999px;
+}
+
+body.legal-page header #nav-menu ul li a{
+  color:#ffffff;
+  font-weight:800;
+  padding:10px 12px;             /* ✅ bigger touch target */
+  border-radius:12px;
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.22);
+  transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  font-size:.95rem;
+}
+
+body.legal-page header #nav-menu ul li a:focus-visible{
+  outline: 3px solid rgba(235,198,37,.75);
+  outline-offset: 2px;
+}
+
+body.legal-page header #nav-menu ul li a:hover{
+  background: rgba(255,255,255,.26);
+  box-shadow: 0 8px 16px rgba(2,8,23,.10);
+  transform: translateY(-1px);
+}
+
+body.legal-page header .hamburger{
+  display:none;
+  flex-direction:column;
+  gap:6px;
+  cursor:pointer;
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.22);
+  box-shadow: 0 8px 16px rgba(2,8,23,.10);
+  padding:10px;
+  border-radius:12px;
+  -webkit-tap-highlight-color: transparent;
+  flex: 0 0 auto;
+}
+body.legal-page header .hamburger span{
+  width:26px;
+  height:3px;
+  background:#ffffff;
+  border-radius:999px;
+  display:block;
+  transition: transform .18s ease, opacity .18s ease;
+}
+body.legal-page header .hamburger[aria-expanded="true"] span:nth-child(1){
+  transform: translateY(8px) rotate(45deg);
+}
+body.legal-page header .hamburger[aria-expanded="true"] span:nth-child(2){ opacity: 0; }
+body.legal-page header .hamburger[aria-expanded="true"] span:nth-child(3){
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+@media (max-width: 980px){
+  body.legal-page header .header-container{
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  body.legal-page header .hamburger{ display:flex; }
+
+  body.legal-page header #nav-menu{
+    display:none;
+    width:100%;
+    margin-top: 10px;
+    background: linear-gradient(180deg, rgba(0,128,128,.96), rgba(0,107,107,.96));
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 16px;
+    box-shadow: 0 14px 30px rgba(2,8,23,.18);
+    padding: 10px 10px 12px;
+  }
+  body.legal-page header #nav-menu.show{ display:block; }
+  body.legal-page header #nav-menu ul{
+    flex-direction: column;
+    align-items: stretch;
+    gap:10px;
+    overflow-x: visible;
+    white-space: normal;
+  }
+  body.legal-page header #nav-menu ul li a{
+    width:100%;
+    padding:14px 14px; /* ✅ larger tap target */
+    border-radius:14px;
+    font-size:1rem;
+  }
+  body.legal-page header .logo h1{
+    font-size: 16px !important;
+  }
+}
+
+/* ✅ extra-small phones: keep header neat */
+@media (max-width: 420px){
+  body.legal-page header .logo img{ height: 40px !important; }
+  body.legal-page header .logo h1{ font-size: 15px !important; }
+}
+
+/* =========================
+   HERO — MEDICAL / COMPLIANCE
+   ========================= */
+body.legal-page .hero{
+  background: linear-gradient(135deg, #0b6b6b, #0a5c5c);
+  color:#fff;
+  border-radius: 16px;
+  padding: 40px 22px 28px;
+  box-shadow: 0 12px 28px rgba(2, 8, 23, 0.14);
+  margin: 18px auto 18px;
+  text-align:center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.16);
+}
+
+body.legal-page .hero::before{
+  content:"";
+  position:absolute;
+  inset:-80px -80px;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,.14), rgba(0,0,0,0) 55%),
+    radial-gradient(circle at 85% 30%, rgba(255,224,130,.16), rgba(0,0,0,0) 55%),
+    radial-gradient(circle at 50% 120%, rgba(0,0,0,.20), rgba(0,0,0,0) 60%);
+  pointer-events:none;
+  z-index:0;
+}
+body.legal-page .hero > *{ position:relative; z-index:1; }
+
+body.legal-page .hero .hero-title{
+  display:inline-flex;
+  flex-direction:column;
+  align-items:center;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+body.legal-page .hero .hero-title .top{
+  display:block;
+  font-weight: 950;
+  font-size: clamp(26px, 6.2vw, 44px); /* ✅ better on phones */
+  line-height: 1.05;
+  letter-spacing: .2px;
+  color:#fff;
+  text-shadow: 0 10px 22px rgba(0,0,0,.18);
+}
+body.legal-page .hero .hero-title .bottom{
+  display:block;
+  font-weight: 900;
+  font-size: clamp(14px, 3.6vw, 18px); /* ✅ better on phones */
+  color: rgba(255,255,255,.92);
+  letter-spacing: .2px;
+}
+
+body.legal-page .hero p{
+  margin:0 auto;
+  max-width: 860px;
+  color: rgba(255,255,255,.92);
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+/* ✅ Compliance badges: responsive, no overflow */
+body.legal-page .meta-stack{
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 8px;
+  z-index: 5;
+}
+
+body.legal-page .meta-card{
+  min-width: 150px;
+  max-width: 240px;       /* ✅ prevent too wide */
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(0,0,0,.28);
+  border: 1px solid rgba(255,255,255,.20);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 18px rgba(0,0,0,.16);
+  text-align:left;
+}
+
+body.legal-page .meta-card .k{
+  font-size: .62rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .78;
+  margin-bottom: 2px;
+  color: rgba(255,255,255,.9);
+}
+body.legal-page .meta-card .v{
+  font-size: .82rem;
+  font-weight: 950;
+  color: rgba(255,255,255,.98);
+  overflow-wrap: anywhere; /* ✅ long text wraps */
+}
+
+@media (max-width: 720px){
+  body.legal-page .hero{ padding: 30px 16px 20px; }
+  body.legal-page .hero p{ font-size: 1rem; }
+
+  body.legal-page .meta-stack{
+  /* Keep your intent */
+  position: relative;
+  top: auto;
+  left: auto;
+
+  /* ✅ Make the block actually “shrink” so right alignment is visible */
+  width: fit-content;
+  max-width: 520px;
+
+  /* ✅ Works in flex + grid + normal flow */
+  margin-left: auto;     /* normal flow + many flex layouts */
+  justify-self: end;     /* grid parents */
+  align-self: flex-end;  /* flex parents */
+
+  /* Your stacking */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+
+  /* Right-align text/cards */
+  text-align: right;
+  justify-items: end;
+}
+}
+
+@media (max-width: 640px){
+  body.legal-page .meta-stack{
+    width: min(520px, 100%);
+    margin: 14px auto 0;
+    justify-self: center;
+    align-self: center;
+    justify-items: center;
+    text-align: center;
+  }
+}
+  
+  body.legal-page .meta-card{
+    min-width: 0;
+    width: 100%;
+    text-align: left;
+  }
+
+/* =========================
+   CONTENT
+   ========================= */
+body.legal-page .card{
+  background:#fff;
+  border: 1px solid rgba(226,232,240,.95);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 8px 18px rgba(2, 8, 23, 0.08);
+}
+
+body.legal-page h3{
+  margin: 18px 0 10px;
+  font-weight: 950;
+  color:#0f172a;
+}
+
+body.legal-page p{
+  color:#334155;
+  line-height:1.75;
+  font-size: 1.02rem;
+  margin: 0 0 14px;
+  overflow-wrap: anywhere; /* ✅ long URLs/emails wrap */
+}
+
+.section{
+  border: 1px solid rgba(226,232,240,.95);
+  border-radius: 14px;
+  padding: 16px;
+  background: rgba(2, 8, 23, 0.02);
+  margin: 12px 0;
+}
+
+/* ✅ Mobile spacing + type for legal content */
+@media (max-width: 640px){
+  body.legal-page main{ padding: 26px 14px 46px; }
+  body.legal-page .card{ padding: 16px; }
+  .section{ padding: 14px; }
+  body.legal-page p{ font-size: 1rem; }
+  body.legal-page h3{ font-size: 1.12rem; }
+}
+
+/* =========================
+   FOOTER (MATCHES OTHER PAGES)
+   ========================= */
+body.legal-page footer{
+  background: linear-gradient(135deg, #006b6b, #008080);
+  color: #fff;
+  margin-top: 26px;
+  padding: 22px 16px 18px;
+  position: relative;
+}
+
+body.legal-page footer .footer-wrap{
+  padding: 0 0 18px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.9fr;
+  gap: 18px;
+  align-items: start;
+}
+
+body.legal-page footer .footer-brand{ 
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+body.legal-page footer .footer-logo{
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex: 0 0 auto;
+  box-shadow: 0 10px 18px rgba(2,8,23,.16);
+}
+
+body.legal-page footer .footer-logo img{ 
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.14));
+}
+
+body.legal-page footer .footer-title{
+  margin: 0;
+  font-weight: 900;
+  line-height: 1.2;
+  font-size: 15px;
+  color: #fff;
+}
+
+body.legal-page footer .footer-sub{
+  margin: 6px 0 0;
+  color: rgba(255,255,255,.82);
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 12.5px;
+  max-width: 46ch;
+}
+
+body.legal-page .footer-col h4{ 
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.9);
+}
+
+body.legal-page footer .footer-links{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.legal-page footer .footer-links a{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  transition: background .15s ease;
+  font-weight: 800;
+  font-size: 12.5px;
+  color: rgba(255,255,255,.95);
+  text-decoration: none;
+}
+
+body.legal-page footer .footer-links a:hover{ 
+  background: rgba(255,255,255,.18);
+  box-shadow: 0 10px 18px rgba(2,8,23,.16);
+  transform: translateY(-1px);
+}
+
+body.legal-page footer .footer-badges{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+body.legal-page footer .footer-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.14);
+  font-weight: 900;
+  font-size: 11.5px;
+  color: rgba(255,255,255,.92);
+  white-space: nowrap;
+}
+body.legal-page footer .footer-badge .ico{
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,224,130,.22);
+  border: 1px solid rgba(255,224,130,.28);
+  font-size: 11px;
+  line-height: 1;
+}
+
+body.legal-page footer .footer-note{
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(2,8,23,.20);
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.82);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+body.legal-page footer .footer-bottom{
+  border-top: 1px solid rgba(255,255,255,.14);
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: rgba(255,255,255,.72);
+}
+
+@media (max-width: 920px){
+  body.legal-page footer .footer-wrap{ 
+    grid-template-columns: 1fr; 
+  }
+  body.legal-page footer .footer-bottom{ 
+    font-size: 11.5px;
+    padding: 12px 0;
+  }
+}
+/* =====================================
+   LEGAL PAGE HERO META RIGHT ALIGN
+   ===================================== */
+
+body.legal-page .meta-stack{
+  display:flex;
+  gap:16px;
+  justify-content:flex-end;
+  width:100%;
+  margin-top:18px;
+  margin-left:auto;
+}
+
+body.legal-page .meta-card{
+  text-align:right;
+  padding:10px 14px;
+  border-radius:12px;
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(4px);
+}
+
+body.legal-page .meta-card .k{
+  font-size:.75rem;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  opacity:.85;
+}
+
+body.legal-page .meta-card .v{
+  font-size:.95rem;
+  font-weight:800;
+}
+/* =====================================
+   HERO META COMPACT RIGHT BADGES
+   ===================================== */
+
+body.legal-page .meta-stack{
+  position: absolute;
+  top: 20px;
+  right: 24px;
+
+  display: flex;
+  gap: 10px;
+}
+
+/* smaller glass cards */
+body.legal-page .meta-card{
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(4px);
+
+  text-align: right;
+  min-width: auto;
+}
+
+/* label */
+body.legal-page .meta-card .k{
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  opacity: .8;
+  line-height: 1.1;
+}
+
+/* value */
+body.legal-page .meta-card .v{
+  font-size: .85rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+/* =====================================
+   LEGAL PAGE DROPDOWN FONT FIX
+   ===================================== */
+
+/* keep main nav buttons bold */
+body.legal-page header #nav-menu > ul > li > a{
+  font-weight: 800;
+}
+
+/* make dropdown items normal */
+body.legal-page header #nav-menu li.has-dropdown .services-dropdown a{
+  font-weight: 400 !important;
+  letter-spacing: 0;
+}
+/* =========================================
+   MOBILE: SERVICES DROPDOWN TAP TO OPEN
+   ========================================= */
+@media (max-width:980px){
+
+  /* make the Services item stack neatly */
+  body.legal-page header #nav-menu ul li.services-item{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+  }
+
+  /* button/link row for Services */
+  body.legal-page header #nav-menu ul li.services-item > a,
+  body.legal-page header #nav-menu ul li.services-item > button{
+    width:100%;
+    justify-content:center;
+    padding:12px 14px;
+    border-radius:14px;
+    background: rgba(255,255,255,.14);
+    border: 1px solid rgba(255,255,255,.18);
+    color:#fff;
+    font-weight:800;
+    cursor:pointer;
+  }
+
+  /* hide submenu by default on mobile */
+  body.legal-page header #nav-menu ul li.services-item .services-dropdown{
+    display:none;
+    flex-direction:column;
+    gap:8px;
+    margin-top:8px;
+    padding:10px;
+    border-radius:14px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+
+  /* show submenu only when active */
+  body.legal-page header #nav-menu ul li.services-item.open .services-dropdown{
+    display:flex;
+  }
+
+  /* submenu links */
+  body.legal-page header #nav-menu ul li.services-item .services-dropdown a{
+    width:100%;
+    justify-content:center;
+    padding:10px 12px;
+    border-radius:12px;
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.14);
+    color:#fff;
+    text-decoration:none;
+    font-weight:500 !important;
+  }
+
+  body.legal-page header #nav-menu ul li.services-item .services-dropdown a:hover{
+    background: rgba(255,255,255,.18);
+  }
+}
+</style>
+
+</head>
+
+<body class="legal-page">
+
+  <header>
+    <div class="container header-container">
+      <a class="logo" href="index.html" aria-label="Home">
+        <img src="assets/img/STHW logo.png" alt="Sunshine Tropical Health & Wellness Logo">
+        <h1>
+          <span class="line1">Sunshine Tropical Health</span>
+          <span class="line2">&amp; Wellness</span>
+        </h1>
+      </a>
+
+      <button class="hamburger" id="hamburger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="nav-menu" aria-label="Primary navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+
+          <!-- ✅ Services dropdown added without deleting existing Services link -->
+          <li class="has-dropdown">
+            <a href="services.html" class="dropdown-toggle">Services</a>
+            <div class="services-dropdown" aria-label="Services menu">
+            <div class="dropdown-label">Our Services</div>
+            <a href="services.html#primary-care">Primary Care</a>
+            <a href="services.html#chronic-condition">Chronic Condition Management</a>
+            <a href="services.html#preventive-wellness">At-Home Routine &amp; Sick Visits</a>
+            <a href="services.html#telehealth">Telehealth</a>
+            <a href="services.html#weight-loss">Weight Loss Program</a>
+            <a href="services.html#botulinum-injections">Wellness Injections</a>
+            <a href="services.html#iv-nutrition">IV Nutrition Therapy</a>
+          </div>
+          </li>
+
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="patient-portal.html">Patient Portal</a></li>
+           <li><a href="reviews.html">Reviews</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-label="Terms of Use hero">
+      <h2 class="hero-title">
+        <span class="top">Terms of Use</span>
+        <span class="bottom">Sunshine Tropical Health &amp; Wellness</span>
+      </h2>
+
+      <p>
+        These terms govern your use of this website and any scheduling requests submitted through it.
+        If you do not agree, please do not use this site.
+      </p>
+
+      <div class="meta-stack" aria-label="Policy metadata">
+        <div class="meta-card">
+          <div class="k">Effective</div>
+          <div class="v">January 2026</div>
+        </div>
+        <div class="meta-card">
+          <div class="k">Applies To</div>
+          <div class="v">Website + Scheduling Requests</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Terms of Use content">
+      <div class="section">
+        <h3>Medical Disclaimer</h3>
+        <p>
+          Content on this website is provided for general informational purposes and is not medical advice.
+          Do not use this site as a substitute for professional medical evaluation, diagnosis, or treatment.
+          For emergencies, call 911 or go to the nearest emergency room.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>Scheduling Requests</h3>
+        <p>
+          Submitting a request does not guarantee an appointment time. Appointment times are confirmed only
+          after you receive confirmation from our team. We may contact you to clarify details before confirming.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>Telehealth Eligibility</h3>
+        <p>
+          Telehealth services may be limited by clinical appropriateness, patient location, and Florida regulations.
+          We may require an in-person visit when necessary for your safety and care quality.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>Acceptable Use</h3>
+        <p>
+          You agree not to misuse the website, attempt unauthorized access, disrupt service, or submit false information.
+          We may restrict access if we believe use is unsafe, unlawful, or abusive.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>Intellectual Property</h3>
+        <p>
+          Website text, design, branding, and logos are owned by Sunshine Tropical Health &amp; Wellness, LLC or used with permission.
+          You may not copy or reuse content for commercial purposes without written permission.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>Limitation of Liability</h3>
+        <p>
+          To the maximum extent permitted by law, Sunshine Tropical Health &amp; Wellness, LLC will not be liable
+          for any damages arising from your use of this website or reliance on its content.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>Changes to These Terms</h3>
+        <p>
+          We may update these terms from time to time. Updates are effective when posted on this page.
+          Your continued use of the site indicates acceptance of the updated terms.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>Contact</h3>
+        <p>
+          Questions about these terms? Email
+          <a href="mailto:sunshinetropicalhealth@gmail.com">sunshinetropicalhealth@gmail.com</a>
+          or call <a href="tel:+14076865593">(407) 686-5593</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ✅ UPGRADED FOOTER -->
+ <footer role="contentinfo">
+  <div class="container footer-wrap">
+
+    <!-- Brand / Trust -->
+    <div class="footer-col">
+      <div class="footer-brand">
+        <div class="footer-logo" aria-hidden="true">
+          <img src="assets/img/STHW logo.png" alt="">
+        </div>
+        <div>
+          <p class="footer-title">Sunshine Tropical Health &amp; Wellness, LLC</p>
+          <p class="footer-sub">
+            Licensed Primary Care &amp; Telehealth Services serving Florida residents.
+            Clear guidance, easy scheduling, and compassionate care you can trust.
+          </p>
+
+          <div class="footer-badges" aria-label="Compliance and security badges">
+            <span class="footer-badge"><span class="ico">✓</span> HIPAA-Compliant</span>
+            <span class="footer-badge"><span class="ico">🔒</span> SSL Encrypted</span>
+            <span class="footer-badge"><span class="ico">ID</span> NPI Registered</span>
+            <span class="footer-badge"><span class="ico">FL</span> Florida-Based</span>
+          </div>
+
+          <div class="footer-note" role="note">
+            This website does not provide medical advice. For emergencies, call 911.
+            Always consult a licensed healthcare professional for diagnosis and treatment.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="patient-portal.html">Patient Scheduling</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal + Hours -->
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul class="footer-links">
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+        <li><a href="patient-rights.html">Patient Rights</a></li>
+      </ul>
+
+      <!-- ✅ Hours box now correctly under Legal -->
+      <div class="footer-note" style="margin-top:12px;">
+        <strong style="color:#fff;">Hours:</strong> Mon–Fri, 6:00 PM – 8:00 PM (ET) Sat–Sun, 9:00 AM – 6:00 PM (ET)<br>
+        <strong style="color:#fff;">Service:</strong> Telehealth currently available
+      </div>
+    </div>
+  </div>
+
+<div class="container footer-bottom" style="display:block; text-align:center; font-size:12px !important;">
+  © <span id="year"></span> Sunshine Tropical Health &amp; Wellness, LLC. All Rights Reserved.
+</div>
+</footer>
+<script src="js/script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const y = document.getElementById("year");
+      if (y) y.textContent = String(new Date().getFullYear());
+
+      const hamburger = document.getElementById("hamburger");
+      const navMenu = document.getElementById("nav-menu");
+      if (hamburger && navMenu && !hamburger.dataset.bound) {
+        hamburger.dataset.bound = "true";
+        hamburger.addEventListener("click", () => {
+          const open = navMenu.classList.toggle("show");
+          hamburger.setAttribute("aria-expanded", String(open));
+          hamburger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        });
+
+        navMenu.querySelectorAll("a").forEach(a => {
+          a.addEventListener("click", () => {
+            if (window.matchMedia("(max-width: 980px)").matches) {
+              navMenu.classList.remove("show");
+              hamburger.setAttribute("aria-expanded", "false");
+              hamburger.setAttribute("aria-label", "Open menu");
+            }
+          });
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

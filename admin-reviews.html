@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Review Moderation | Sunshine Tropical Health</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+const ADMIN_PASSWORD = "1qaz2wsx!QAZ@WSX";
+
+const entered = prompt("Enter admin password");
+
+if(entered !== ADMIN_PASSWORD){
+document.body.innerHTML="Access denied";
+}
+
+</script>
+<style>
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+background:#f2f2f2;
+padding:40px;
+}
+
+h1{
+color:#0f766e;
+margin-bottom:20px;
+}
+
+.review-card{
+background:white;
+border-radius:12px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 6px 14px rgba(0,0,0,.08);
+border-left:6px solid #008080;
+}
+
+.review-title{
+font-weight:800;
+margin-bottom:6px;
+}
+
+.review-meta{
+font-size:.9rem;
+color:#64748b;
+margin-bottom:10px;
+}
+
+.review-message{
+margin-bottom:12px;
+line-height:1.6;
+}
+
+button{
+border:none;
+padding:10px 16px;
+border-radius:8px;
+cursor:pointer;
+font-weight:700;
+margin-right:8px;
+}
+
+.approve{
+background:#10b981;
+color:white;
+}
+
+.reject{
+background:#ef4444;
+color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Pending Reviews</h1>
+
+<div id="reviewList"></div>
+
+<script>
+
+const SUPABASE_URL = "https://qdysdamxttccpgetscai.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFkeXNkYW14dHRjY3BnZXRzY2FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNjIxNTQsImV4cCI6MjA4ODczODE1NH0.0w-9JyX9AMkWoCQ7LYuIeIdEH3Vx1XDGaglmDCOI8k8";
+
+const supabaseClient = supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+);
+
+async function loadReviews(){
+
+const { data, error } = await supabaseClient
+.from("reviews")
+.select("*")
+.eq("approved", false)
+.eq("rejected", false)
+.order("created_at", { ascending:false });
+
+const list = document.getElementById("reviewList");
+
+if(error){
+list.innerHTML="Error loading reviews";
+return;
+}
+
+if(!data.length){
+list.innerHTML="No pending reviews.";
+return;
+}
+
+list.innerHTML=data.map(r => `
+
+<div class="review-card">
+
+<div class="review-title">${r.review_title}</div>
+
+<div class="review-meta">
+${r.review_name} • ${r.review_relationship || ""}
+</div>
+
+<div class="review-message">
+${r.review_message}
+</div>
+
+<button class="approve" onclick="approveReview('${r.id}')">
+Approve
+</button>
+
+<button class="reject" onclick="rejectReview('${r.id}')">
+Reject
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+async function approveReview(id){
+
+await supabaseClient
+.from("reviews")
+.update({
+approved:true,
+approved_at:new Date().toISOString()
+})
+.eq("id",id);
+
+loadReviews();
+
+}
+
+async function rejectReview(id){
+
+await supabaseClient
+.from("reviews")
+.update({
+rejected:true,
+rejected_at:new Date().toISOString()
+})
+.eq("id",id);
+
+loadReviews();
+
+}
+
+loadReviews();
+
+</script>
+
+</body>
+</html>

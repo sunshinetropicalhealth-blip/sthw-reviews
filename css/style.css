@@ -1,0 +1,1862 @@
+/* =========================
+   RESET & BASE
+========================= */
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+:root{
+  --teal:#008080;
+  --teal-dark:#006b6b;
+  --gold:#ffe082;
+  --gold-deep:#f2b233;
+  --bg:#F2F2F2;
+  --text:#4B4B4B;
+  --line:#e2e8f0;
+  --shadow:0 10px 30px rgba(2, 8, 23, .08);
+  --radius:18px;
+  --max:1200px;
+
+  /* handy */
+  --nav-panel: linear-gradient(180deg, rgba(0,128,128,.96), rgba(0,107,107,.96));
+}
+
+/* ✅ Don’t flex the html element (it can cause weird height/layout issues) */
+html{ 
+  height:100%; 
+  scroll-behavior:smooth; 
+  background:var(--bg); 
+}
+
+#portal-section {
+  scroll-margin-top: 110px;
+}
+
+body{
+  min-height:100%;
+  font-family:"Poppins", sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+}
+
+img{ max-width:100%; display:block; }
+a{ text-decoration:none; color:inherit; }
+
+a:focus-visible,
+button:focus-visible{
+  outline:3px solid rgba(255,224,130,.9);
+  outline-offset:3px;
+  border-radius:10px;
+}
+
+/* =========================
+   TOPBAR (used on index + inner pages)
+========================= */
+.topbar{
+  background:var(--teal);
+  color:#fff;
+  font-size:14px;
+}
+.topbar .wrap{
+  max-width:var(--max);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 20px;
+  flex-wrap:wrap;
+}
+.topbar .pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  white-space:nowrap;
+}
+.topbar .dot{
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  background:var(--gold);
+  box-shadow:0 0 0 3px rgba(255,224,130,.22);
+}
+.topbar .left,
+.topbar .right{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+/* =========================
+   GLOBAL HEADER / NAV
+   ✅ Sticky keeps layout stable (no “main margin-top hacks”)
+========================= */
+header{
+  position: sticky;
+  top:0;
+  width:100%;
+  background:var(--teal);
+  color:#fff;
+  z-index:1000;
+  overflow:visible;
+}
+
+/* Common container utility */
+.container{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:0 16px;
+}
+
+.header-container{
+  max-width:var(--max);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+  padding:12px 20px;
+  position:relative;
+}
+
+/* Default text-logo (if a page uses plain text only) */
+.logo{ font-size:1.5rem; font-weight:700; }
+
+/* nav */
+#nav-menu{ display:block; }
+#nav-menu ul{
+  list-style:none;
+  display:flex;
+  gap:28px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin:0;
+  padding:0;
+}
+
+#nav-menu ul li a{
+  color:#fff;
+  font-weight:600;
+  transition: color .3s, background .2s, transform .2s;
+  padding:10px 14px;
+  border-radius:12px;
+}
+
+#nav-menu ul li a:hover,
+#nav-menu ul li a.active{
+  color:var(--gold);
+}
+
+#nav-menu ul li a:hover{
+  background: rgba(255,255,255,.10);
+  transform: translateY(-1px);
+}
+
+/* Hamburger (button) */
+.hamburger{
+  display:none;
+  flex-direction:column;
+  cursor:pointer;
+  gap:6px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.12);
+  padding:12px;
+  border-radius:12px;
+  -webkit-tap-highlight-color:transparent;
+}
+.hamburger span{
+  width:28px;
+  height:3px;
+  background:#fff;
+  border-radius:999px;
+  transition: transform .18s ease, opacity .18s ease;
+}
+
+/* Hamburger -> X (aria-expanded toggled by JS) */
+.hamburger[aria-expanded="true"] span:nth-child(1){ transform: translateY(9px) rotate(45deg); }
+.hamburger[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+.hamburger[aria-expanded="true"] span:nth-child(3){ transform: translateY(-9px) rotate(-45deg); }
+
+/* =========================
+   MAIN / HERO (GLOBAL)
+========================= */
+main{ flex:1; }
+
+.hero{
+  background: linear-gradient(to right, var(--teal), #00bfa5);
+  height:50vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#fff;
+  padding:0 20px;
+}
+
+.hero-content{
+  max-width:900px;
+  margin:0 auto;
+  text-align:center;
+  background:rgba(0,0,0,.15);
+  padding:30px;
+  border-radius:15px;
+}
+
+.hero h1{ font-size:2.5rem; margin-bottom:10px; }
+.hero p{ font-size:1.1rem; }
+
+section{ padding:60px 20px; text-align:center; }
+h2{ color:var(--teal); margin-bottom:20px; }
+
+/* =========================
+   CALENDAR
+========================= */
+#calendar{
+  max-width:600px;
+  margin:20px auto;
+  border:1px solid #ccc;
+  border-radius:10px;
+  text-align:center;
+  display:block;
+  background:#fff;
+  padding:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+.fc .fc-toolbar-title{
+  font-size:1.4rem;
+  color:var(--teal);
+  text-align:center;
+  display:block;
+  margin:0 auto;
+}
+
+.fc-daygrid-day.fc-day-today{ background-color:#E0F2F1 !important; }
+.fc-day-disabled{
+  background-color:#F5F5F5 !important;
+  color:#B1B1B1 !important;
+  cursor:not-allowed !important;
+}
+.fc-day-booked{
+  background-color:#FFE0E0 !important;
+  color:#BB2727 !important;
+  font-weight:700;
+}
+
+.fc button{
+  background-color:var(--teal);
+  color:#fff;
+  border:none;
+  border-radius:5px;
+  padding:5px 12px;
+  cursor:pointer;
+  transition: background .3s;
+}
+.fc button:hover{ background-color:#004d4d; }
+
+/* =========================
+   APPOINTMENT FORM
+========================= */
+#appointment-form{
+  text-align:center;
+  padding:40px 20px;
+  margin-top:-60px; /* safer than -1in */
+}
+
+#appointment-form h2{ color:var(--teal); margin-bottom:20px; }
+
+#appointment-form form#appointmentForm{
+  max-width:350px;
+  margin:-10px auto;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+#appointment-form form#appointmentForm label{
+  font-size:.9rem;
+  color:#4B4B4B;
+}
+
+#appointment-form form#appointmentForm input,
+#appointment-form form#appointmentForm textarea,
+#appointment-form form#appointmentForm select{
+  padding:8px;
+  font-size:.9rem;
+  border:1px solid #ccc;
+  border-radius:5px;
+  width:100%;
+}
+
+#appointment-form form#appointmentForm textarea{
+  min-height:40px;
+  resize:vertical;
+}
+
+#appointment-form form#appointmentForm button.submit-btn{
+  padding:10px;
+  font-size:.95rem;
+  background: linear-gradient(to right, var(--teal), #00bfa5);
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  transition: background .3s ease;
+}
+#appointment-form form#appointmentForm button.submit-btn:hover{
+  background: linear-gradient(to right, #004d4d, #009688);
+}
+
+/* =========================
+   CONTACT INFO
+========================= */
+.contact-info{ text-align:center; padding:50px 20px; }
+.contact-info a{ color:var(--teal); font-weight:700; }
+.contact-info a:hover{ color:#004d4d; }
+
+/* =========================
+   GLOBAL RESPONSIVE (ALL PAGES)
+   ✅ Match Services/About style: teal menu panel + vertical links
+========================= */
+@media (max-width:980px){
+  .hamburger{ display:flex; }
+
+  .header-container{
+    flex-wrap:wrap;
+    align-items:center;
+  }
+
+  /* ✅ Mobile menu panel */
+  #nav-menu{
+    display:none;
+    width:100%;
+    margin-top:12px;
+
+    background: var(--nav-panel);
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 16px;
+    box-shadow: 0 14px 30px rgba(2,8,23,.18);
+    padding: 10px 10px 12px;
+  }
+  #nav-menu.show{ display:block; }
+
+  #nav-menu ul{
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: center;
+    gap:10px;
+    width:100%;
+    padding:6px 0 2px;
+  }
+
+  #nav-menu ul li a{
+    width:100%;
+    padding:12px 14px;
+    border-radius:14px;
+    background: rgba(255,255,255,.14);
+    border: 1px solid rgba(255,255,255,.18);
+    color:#fff;
+  }
+
+  #nav-menu ul li a:hover{
+    background: rgba(255,255,255,.22);
+    transform:none;
+  }
+
+  #nav-menu ul li a.active{
+    background: rgba(255,224,130,.28);
+    border: 1px solid rgba(255,224,130,.40);
+    color:#0f172a;
+  }
+
+  .hero{ height:45vh; }
+  #calendar, form#appointmentForm{ max-width:90%; }
+
+  #appointment-form{ margin-top:0; }
+}
+
+/* =========================================================
+   INDEX ONLY (when .topbar exists)
+========================================================= */
+.topbar ~ main{ margin-top:0; }
+
+/* Index header overrides */
+.topbar + header{
+  position: sticky;
+  top:0;
+  width:100%;
+  z-index:1000;
+  overflow:hidden;
+  isolation:isolate;
+  background:var(--teal);
+  border-bottom:1px solid rgba(15,23,42,.10);
+  box-shadow:0 10px 28px rgba(2,8,23,.12);
+}
+
+/* Accent line */
+.topbar + header::before{
+  content:"";
+  position:absolute;
+  left:0; right:0; top:0;
+  height:3px;
+  background: linear-gradient(90deg, rgba(0,128,128,.85), rgba(0,128,128,.25));
+  z-index:5;
+}
+
+/* Light overlay */
+.topbar + header::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(2,8,23,.05));
+}
+
+/* Keep header content above motion layers */
+.topbar + header > *{ position:relative; z-index:6; }
+
+/* Glass container */
+.topbar + header .header-container{
+  max-width:var(--max);
+  margin:10px auto;
+  padding:12px 14px;
+  border-radius:18px;
+  background: rgba(255,255,255,.22);
+  border:1px solid rgba(255,255,255,.28);
+  box-shadow:0 8px 18px rgba(2,8,23,.08);
+}
+
+/* Logo image (index uses logo image) */
+.topbar + header .logo img{
+  height:90px;
+  width:auto;
+  object-fit:contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));
+}
+
+/* Nav pills (index) */
+.topbar + header #nav-menu ul{ gap:10px; }
+.topbar + header #nav-menu ul li a{
+  color:#0f172a;
+  font-weight:700;
+  padding:10px 12px;
+  border-radius:14px;
+  background: rgba(255,255,255,.22);
+  border:1px solid rgba(255,255,255,.22);
+  transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+}
+.topbar + header #nav-menu ul li a:hover{
+  background: rgba(255,255,255,.38);
+  box-shadow:0 8px 16px rgba(2,8,23,.10);
+  transform: translateY(-1px);
+}
+.topbar + header #nav-menu ul li a.active{
+  background: rgba(0,128,128,.18);
+  border:1px solid rgba(0,128,128,.22);
+  color:var(--teal-dark);
+}
+
+/* Hamburger (index style) */
+.topbar + header .hamburger{
+  border:1px solid rgba(15,23,42,.18);
+  background: rgba(255,255,255,.25);
+  box-shadow:0 8px 16px rgba(2,8,23,.10);
+}
+.topbar + header .hamburger span{ background:var(--teal-dark); }
+
+@media (max-width:980px){
+  .topbar + header{ overflow:visible; }
+}
+
+/* =========================================================
+   HEADER MOTION (Sunset base + moving water + ripples)
+========================================================= */
+.header-motion{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+}
+
+/* Ensure header content stays above motion layers */
+header > .header-motion{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:1 !important;
+}
+header > :not(.header-motion){
+  position:relative;
+  z-index:7;
+}
+
+/* Base + water layers */
+.header-motion .bg-base,
+.header-motion .bg-water{
+  position:absolute;
+  inset:0;
+  background-image:url("assets/img/sunset-slow-water.gif");
+  background-repeat:no-repeat;
+}
+
+/* Base image */
+.header-motion .bg-base{
+  opacity:.62;
+  filter:saturate(1.05) contrast(1.03);
+  background-size:100% 50%;
+  background-position:50% 50%;
+}
+
+/* Water layer */
+.header-motion .bg-water{
+  opacity:.42;
+  filter:saturate(1.08) contrast(1.05);
+  background-size:100% 60%;
+  background-position:50% 72%;
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 84%);
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 84%);
+  overflow:hidden;
+}
+
+@keyframes waterDrift{
+  0%{ background-position:50% 72%; }
+  50%{ background-position:51.4% 72.6%; }
+  100%{ background-position:50% 72%; }
+}
+.header-motion .bg-water{ animation: waterDrift 7.5s ease-in-out infinite; }
+
+.header-motion .bg-water::before,
+.header-motion .bg-water::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 84%);
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 84%);
+}
+
+@keyframes rippleSlide{
+  0%{ background-position:0 0, 0 0; }
+  100%{ background-position:160px 0, -180px 0; }
+}
+.header-motion .bg-water::before{
+  background:
+    repeating-radial-gradient(circle at 30% 86%,
+      rgba(255,255,255,.20) 0 2px,
+      rgba(255,255,255,0) 7px 16px),
+    repeating-radial-gradient(circle at 70% 88%,
+      rgba(255,255,255,.16) 0 2px,
+      rgba(255,255,255,0) 8px 18px);
+  opacity:.18;
+  mix-blend-mode:soft-light;
+  filter: blur(1.2px) contrast(.95);
+  animation: rippleSlide 3.8s linear infinite;
+}
+
+@keyframes shimmer{
+  0%{ transform:translateX(-18%); opacity:.28; }
+  50%{ transform:translateX(18%); opacity:.55; }
+  100%{ transform:translateX(-18%); opacity:.28; }
+}
+.header-motion .bg-water::after{
+  background: linear-gradient(105deg,
+    rgba(255,255,255,0) 35%,
+    rgba(255,255,255,.22) 48%,
+    rgba(255,255,255,0) 60%);
+  opacity:.16;
+  mix-blend-mode:soft-light;
+  filter: blur(2px);
+  animation: shimmer 2.9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .header-motion .bg-water{ animation:none; }
+  .header-motion .bg-water::before,
+  .header-motion .bg-water::after{ animation:none; }
+}
+
+/* =========================================================
+   INDEX HERO FIX (kept + deduped)
+========================================================= */
+.topbar ~ main .hero{
+  height:auto !important;
+  background:transparent !important;
+  display:block !important;
+  text-align:left !important;
+  color:inherit !important;
+  padding:22px 0 10px !important;
+}
+
+.topbar ~ main .hero-grid{
+  display:grid !important;
+  grid-template-columns: 1.15fr .85fr !important;
+  gap:18px !important;
+  align-items:stretch !important;
+}
+
+.card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.topbar ~ main .hero .hero-content{
+  max-width:none !important;
+  background:transparent !important;
+  padding:26px !important;
+  border-radius:0 !important;
+}
+
+/* buttons/badges */
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-weight:800;
+  color:var(--teal-dark);
+}
+.btn{
+  border:0;
+  padding:12px 16px;
+  border-radius:999px;
+  font-weight:800;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 6px 16px rgba(2, 8, 23, .10);
+}
+.btn-primary{
+  background: linear-gradient(90deg, var(--gold), #ffd27a);
+  color:#1f2937;
+}
+.btn-secondary{
+  background: rgba(0,128,128,.12);
+  color:var(--teal-dark);
+  border:1px solid rgba(0,128,128,.22);
+}
+.hero-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; align-items:center; }
+
+.hero-badges{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 10px;
+  border-radius:999px;
+  background: rgba(255,255,255,.65);
+  border:1px solid var(--line);
+  color:#0f172a;
+  font-weight:800;
+  font-size:13px;
+}
+.badge-icon{
+  width:20px;height:20px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  background: rgba(0,128,128,.14);
+  color:var(--teal-dark);
+  font-size:13px;
+}
+
+.topbar ~ main .hero-visual{
+  position:relative !important;
+  overflow:hidden !important;
+  min-height:360px !important;
+}
+.topbar ~ main .hero-visual-inner{
+  position:relative !important;
+  height:100% !important;
+  padding-bottom:110px !important;
+}
+.topbar ~ main .hero-img{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  object-position:center top !important;
+  padding:10px 10px 120px !important;
+}
+.topbar ~ main .hero-overlay{
+  position:absolute;
+  inset:0;
+  background: linear-gradient(180deg, rgba(2,8,23,.04), rgba(2,8,23,.10)) !important;
+  pointer-events:none;
+}
+
+.topbar ~ main .hero-cta{
+  position:absolute !important;
+  left:16px !important;
+  right:16px !important;
+  bottom:86px !important;
+  z-index:3 !important;
+  padding:14px !important;
+  border-radius:18px !important;
+  background: rgba(255,255,255,.82) !important;
+  border:1px solid rgba(226,232,240,.9) !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow:0 12px 26px rgba(2,8,23,.10) !important;
+}
+.hero-cta-title{ font-weight:900; color:#0f172a; font-size:16px; }
+.hero-cta-sub{ margin-top:4px; color:#475569; font-weight:700; font-size:13px; }
+
+.topbar ~ main .hero-stats-bar{
+  position:absolute !important;
+  left:16px !important;
+  right:16px !important;
+  bottom:16px !important;
+  z-index:3 !important;
+  display:flex !important;
+  gap:10px !important;
+  align-items:stretch !important;
+}
+.topbar ~ main .hero-stats-bar .hero-stat{
+  flex:1 !important;
+  background: rgba(255,255,255,.78) !important;
+  border:1px solid rgba(226,232,240,.9) !important;
+  border-radius:16px !important;
+  padding:12px !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow:0 10px 20px rgba(2,8,23,.08) !important;
+}
+.stat-title{
+  font-weight:900;
+  font-size:12px;
+  color:var(--teal-dark);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.stat-value{ font-weight:900; font-size:16px; margin-top:4px; color:#0f172a; }
+.stat-sub{ margin-top:2px; color:#475569; font-weight:700; font-size:13px; }
+
+/* Strip section */
+.strip{ padding:12px 0 0; }
+.strip-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.strip-link{
+  display:block;
+  border-radius:var(--radius);
+  overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:0 10px 22px rgba(2,8,23,.06);
+  background:#fff;
+  position:relative;
+  transform: translateZ(0);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.strip-link:hover{ transform: translateY(-3px); box-shadow:0 14px 28px rgba(2,8,23,.10); }
+
+.strip-item{
+  height:180px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px;
+  overflow:hidden;
+  background:#fff;
+}
+.strip-item img{
+  width:100%;
+  height:100%;
+  object-fit:contain !important;
+  object-position:center;
+}
+
+/* Scroll Animations */
+.animate{ opacity:0; transform: translateY(30px); transition: all .7s ease-out; }
+.animate.active{ opacity:1; transform: translateY(0); }
+
+@media (max-width:980px){
+  .topbar ~ main .hero-grid{ grid-template-columns:1fr !important; }
+  .topbar ~ main .hero-visual{ min-height:320px !important; }
+  .topbar ~ main .hero-visual-inner{ padding-bottom:140px !important; }
+  .topbar ~ main .hero-img{ padding:10px 10px 140px !important; }
+  .topbar ~ main .hero-stats-bar{ flex-direction:column !important; }
+  .topbar ~ main .hero-cta{ bottom:148px !important; }
+
+  .strip-grid{ grid-template-columns:1fr; }
+  .strip-item{ height:240px; }
+}
+
+/* =========================
+   Floating Book Appointment Button
+========================= */
+.book-btn{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  background: linear-gradient(to right, var(--teal-dark), var(--teal));
+  color:#fff;
+  padding:12px 22px;
+  border-radius:30px;
+  text-decoration:none;
+  font-weight:700;
+  box-shadow:0 4px 8px rgba(0,0,0,.2);
+  transition: background .3s, transform .2s;
+  z-index:999;
+}
+.book-btn:hover,
+.book-btn:focus{
+  background: linear-gradient(to right, #004d4d, #009688);
+  transform: scale(1.05);
+  outline:none;
+}
+@media (max-width:520px){
+  .book-btn{ right:15px; bottom:15px; }
+}
+
+/* =========================
+   SERVICES HERO — FIX (scoped)
+   Put class="services-page" on <body> in services.html
+========================= */
+body.services-page .hero{
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark)) !important;
+  color:#fff !important;
+}
+body.services-page .hero .hero-content{ background: rgba(255,255,255,.10) !important; }
+body.services-page .hero h1{ color:#fff !important; }
+body.services-page .hero p{ color: rgba(255,255,255,.92) !important; }
+
+/* Push the whole portal section lower under the hero */
+body.contact-page #portal-section{
+  margin-top: 48px;   /* space below "Patient Portal" hero */
+}
+
+/* Intro wrapper */
+body.contact-page .portal-intro{
+  max-width: 820px;
+  margin: 0 auto 24px;
+  text-align: center;
+}
+
+/* Heading — editorial block, NOT button */
+body.contact-page .portal-heading{
+  display: block;
+
+  margin: 0 auto 14px;
+  padding: 12px 20px 14px;
+
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 900;
+  letter-spacing: .02em;
+
+  color: #0f172a;
+  background: linear-gradient(135deg, #FFE082, #ffd27a);
+
+  border-top: 5px solid #008080;   /* teal top edge */
+  border-radius: 6px;
+
+  box-shadow: 0 8px 18px rgba(2,8,23,.12);
+}
+
+/* Subtitle text */
+body.contact-page .portal-subtext{
+  max-width: 760px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #475569;
+}
+
+/* Slightly tighten spacing to the card below */
+body.contact-page #portal-section .sp-widget-card{
+  margin-top: 12px;
+}
+
+/* =========================================================
+   ✅ STABILITY PATCH (PASTE AT VERY BOTTOM OF style.css)
+   Goal: stop overflow, flex blowouts, header/nav weirdness,
+   and make all pages mobile-safe even with page-scoped CSS.
+   ========================================================= */
+
+/* 1) Stop sideways scroll + font auto-zoom on iOS */
+html, body{
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* 2) Media always responsive */
+img, video, iframe{
+  max-width: 100%;
+  height: auto;
+}
+
+/* 3) Flex containers must allow children to shrink */
+.header-container,
+.logo,
+#nav-menu{
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* 4) Header container should never force width */
+header .header-container{
+  width: 100%;
+}
+
+/* 5) Logo text/images should never overflow */
+header .logo h1,
+header .logo,
+header .logo *{
+  max-width: 100%;
+}
+
+header .logo h1{
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* 6) Nav UL: keep it stable on desktop (scroll instead of wrap chaos) */
+header #nav-menu ul{
+  flex-wrap: nowrap;              /* prevents “stair-step” wrapping */
+  overflow-x: auto;               /* scroll if needed */
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+header #nav-menu ul::-webkit-scrollbar{ height: 6px; }
+header #nav-menu ul::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.25);
+  border-radius: 999px;
+}
+
+/* 7) Mobile header must be allowed to grow (your page styles do this; base should too) */
+@media (max-width: 980px){
+  header .header-container{
+    height: auto !important;
+    padding-bottom: 14px;
+  }
+}
+
+/* 8) Hero: don’t let base fixed height fight page-scoped auto heroes */
+.hero{
+  height: auto;                   /* allow page styles to control */
+  min-height: 320px;              /* still gives structure */
+  padding: 56px 20px;
+}
+
+@media (max-width: 768px){
+  .hero{
+    min-height: 260px;
+    padding: 44px 16px;
+  }
+}
+
+/* 9) Main content should never be trapped under sticky header */
+main{
+  display: block;
+  width: 100%;
+}
+
+/* 10) Sections should scale down on mobile */
+section{
+  padding: 46px 16px;
+}
+@media (max-width: 768px){
+  section{
+    padding: 34px 14px;
+  }
+}
+
+/* 11) Buttons/tap targets (helps nav + cart + book buttons) */
+button, .btn, a, .hamburger{
+  touch-action: manipulation;
+}
+
+/* 12) Floating Book button should respect safe areas + not cover footers */
+.book-btn{
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  max-width: calc(100vw - 30px);
+}
+
+/* 13) If any page has floating buttons (Book/Cart), give footer breathing room globally */
+footer{
+  padding-bottom: calc(18px + 110px);
+}
+
+/* 14) If header-motion exists, don’t let it break layout */
+.header-motion{
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* 15) Hard stop: prevent any child from forcing layout wider */
+body > *{
+  max-width: 100%;
+}
+
+/* =========================================================
+   ✅ FOOTER STYLES (Drop-in)
+   Works with your exact footer HTML:
+   <footer class="footer"> ... <div class="container footer-wrap"> ...
+   Mobile-safe, no overflow, consistent with your other pages.
+   ========================================================= */
+
+.footer{
+  background: linear-gradient(135deg, #006b6b, #008080);
+  color: #fff;
+  margin-top: 26px;
+  padding: 22px 16px 18px;
+  position: relative;
+  overflow-x: hidden; /* ✅ extra safety */
+}
+
+/* Main footer grid */
+.footer-wrap{
+  padding: 0 0 18px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.9fr;
+  gap: 18px;
+  align-items: start;
+
+  /* ✅ prevent grid from forcing page width */
+  min-width: 0;
+}
+
+/* Brand block */
+.footer-brand{
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.footer-logo{
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex: 0 0 auto;
+  box-shadow: 0 10px 18px rgba(2,8,23,.16);
+}
+
+.footer-logo img{
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.14));
+}
+
+/* Text */
+.footer-title{
+  margin: 0;
+  font-weight: 900;
+  line-height: 1.2;
+  font-size: 15px;
+  color: #fff;
+
+  /* ✅ long names never overflow */
+  overflow-wrap: anywhere;
+}
+
+.footer-sub{
+  margin: 6px 0 0;
+  color: rgba(255,255,255,.82);
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 12.5px;
+  max-width: 46ch;
+  overflow-wrap: anywhere;
+}
+
+/* Column headers */
+.footer-col h4{
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.9);
+}
+
+/* Links */
+.footer-links{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-links a{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  transition: background .15s ease, transform .12s ease, box-shadow .12s ease;
+  font-weight: 800;
+  font-size: 12.5px;
+  color: rgba(255,255,255,.95);
+  text-decoration: none;
+
+  /* ✅ long link text safe */
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.footer-links a:hover{
+  background: rgba(255,255,255,.18);
+  box-shadow: 0 10px 18px rgba(2,8,23,.16);
+  transform: translateY(-1px);
+}
+
+/* Compliance badges */
+.footer-badges{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.footer-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.14);
+  font-weight: 900;
+  font-size: 11.5px;
+  color: rgba(255,255,255,.92);
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.footer-badge .ico{
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,224,130,.22);
+  border: 1px solid rgba(255,224,130,.28);
+  font-size: 11px;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+/* Notes / Hours */
+.footer-note{
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(2,8,23,.20);
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.82);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.45;
+
+  /* ✅ URLs / long text won't overflow */
+  overflow-wrap: anywhere;
+}
+
+/* Bottom legal line */
+.footer-bottom{
+  border-top: 1px solid rgba(255,255,255,.14);
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: rgba(255,255,255,.72);
+
+  /* ✅ safe wrap */
+  overflow-wrap: anywhere;
+}
+
+/* ✅ MOBILE */
+@media (max-width: 980px){
+  .footer-wrap{
+    grid-template-columns: 1fr;
+  }
+  .footer-bottom{
+    font-size: 11.5px;
+    padding: 12px 0;
+  }
+}
+
+/* ✅ If you have floating buttons (cart/book), this keeps footer readable */
+@media (max-width: 520px){
+  .footer{
+    padding-bottom: calc(18px + 110px);
+  }
+}
+/* =========================================================
+   ✅ UNIVERSAL RESPONSIVE PATCH (PASTE AT VERY BOTTOM)
+   Goal: Works on desktop when window is narrowed, tablets, and phones.
+   Does NOT remove your styles; it just prevents layout breakage.
+   ========================================================= */
+
+/* 0) Safety: make sure the page never becomes wider than the screen */
+html, body { max-width: 100%; overflow-x: hidden; }
+
+/* 1) Fluid container spacing that feels good on any width */
+.container,
+.header-container,
+.topbar .wrap{
+  width: min(var(--max), 100%);
+  margin-inline: auto;
+  padding-inline: clamp(12px, 2.2vw, 20px);
+}
+
+/* 2) Allow flex/grid children to shrink instead of forcing overflow */
+.header-container,
+.topbar .wrap,
+.footer-wrap,
+.hero-grid,
+.strip-grid{
+  min-width: 0;
+}
+.header-container > *,
+.topbar .wrap > *,
+.footer-wrap > *,
+.hero-grid > *{
+  min-width: 0;
+}
+
+/* 3) Images / embeds never overflow */
+img, svg, video, iframe, canvas{
+  max-width: 100%;
+  height: auto;
+}
+
+/* 4) Fluid typography for headings & hero */
+.hero h1{
+  font-size: clamp(1.55rem, 3.2vw, 2.5rem);
+}
+.hero p{
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
+}
+
+/* 5) Hero: don’t rely on vh height (vh can look bad on short screens)
+      Your “stability patch” already sets height:auto — keep it consistent */
+.hero{
+  height: auto;
+  min-height: clamp(240px, 40vh, 520px);
+  padding: clamp(28px, 5vw, 56px) clamp(14px, 3vw, 20px);
+}
+
+/* 6) Desktop nav: allow horizontal scroll instead of wrapping into chaos
+      (this helps when you shrink the browser window but are still >980px) */
+@media (min-width: 981px){
+  #nav-menu ul{
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+  #nav-menu ul li{
+    flex: 0 0 auto;
+  }
+}
+
+/* 7) Tablet zone: stack hero grid + tighten spacing smoothly */
+@media (max-width: 1024px){
+  section{ padding: 44px 16px; }
+  .topbar .wrap{ gap: 10px; }
+}
+
+/* 8) All grids: prevent overflow with minmax(0,1fr) */
+.strip-grid{
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 980px){
+  .strip-grid{ grid-template-columns: 1fr; }
+}
+
+/* 9) Footer grid: use minmax(0,1fr) so columns never force width */
+.footer-wrap{
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr) minmax(0, .9fr);
+}
+@media (max-width: 980px){
+  .footer-wrap{ grid-template-columns: 1fr; }
+}
+
+/* 10) Forms/calendar: always fit screen on small widths */
+#calendar{ width: min(600px, 100%); }
+#appointment-form form#appointmentForm{ width: min(420px, 100%); }
+
+/* 11) Tap targets: keep buttons usable on touch + narrow screens */
+.btn, .btn-pill, .hamburger, button, a{
+  touch-action: manipulation;
+}
+
+/* 12) Small phone polish */
+@media (max-width: 520px){
+  .hero-content{ padding: 18px; }
+  .topbar .pill{ padding: 6px 9px; }
+}
+/* =========================================================
+   ✅ SERVICES DROPDOWN FIX
+   Add at very bottom of style.css
+   Does NOT delete existing code — only overrides it
+   ========================================================= */
+
+/* Keep dropdown parent positioned correctly */
+#nav-menu > ul > li.has-dropdown{
+  position: relative;
+}
+
+/* Only style top-level nav links here */
+#nav-menu > ul > li > a{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* Add arrow to Services */
+#nav-menu > ul > li > a.dropdown-toggle::after{
+  content: "▾";
+  margin-left: 8px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* Desktop dropdown panel */
+.services-dropdown{
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  min-width: 300px;
+  background: #ffffff;
+  border: 1px solid rgba(226,232,240,.95);
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(2,8,23,.16);
+  padding: 10px;
+  display: none;
+  z-index: 1200;
+}
+
+/* Dropdown heading */
+.services-dropdown .dropdown-label{
+  display: block;
+  padding: 8px 14px 10px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+/* IMPORTANT: dropdown links get their own style */
+.services-dropdown a{
+  display: flex !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  padding: 12px 14px !important;
+  margin: 2px 0 !important;
+  border-radius: 12px !important;
+  color: #0f172a !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  transform: none !important;
+}
+
+/* Dropdown hover state */
+.services-dropdown a:hover,
+.services-dropdown a:focus-visible{
+  background: rgba(0,128,128,.08) !important;
+  color: var(--teal-dark) !important;
+  transform: none !important;
+}
+
+/* Show dropdown on hover/focus */
+#nav-menu > ul > li.has-dropdown:hover > .services-dropdown,
+#nav-menu > ul > li.has-dropdown:focus-within > .services-dropdown{
+  display: block;
+}
+
+/* =========================================================
+   ✅ INDEX HEADER DROPDOWN LOOK
+   Makes dropdown match your index/header glass nav style
+   ========================================================= */
+.topbar + header .services-dropdown{
+  background: rgba(255,255,255,.98);
+  border: 1px solid rgba(226,232,240,.95);
+  box-shadow: 0 18px 40px rgba(2,8,23,.16);
+}
+
+.topbar + header .services-dropdown a{
+  color: #0f172a !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.topbar + header .services-dropdown a:hover,
+.topbar + header .services-dropdown a:focus-visible{
+  color: var(--teal-dark) !important;
+  background: rgba(0,128,128,.08) !important;
+}
+
+/* =========================================================
+   ✅ MOBILE DROPDOWN FIX
+   Keeps dropdown readable inside mobile menu
+   ========================================================= */
+@media (max-width: 980px){
+  #nav-menu > ul > li.has-dropdown > .services-dropdown{
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    min-width: 100% !important;
+    margin-top: 10px !important;
+    display: block !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+    padding: 8px !important;
+    background: rgba(255,255,255,.95) !important;
+  }
+
+  #nav-menu > ul > li.has-dropdown > .services-dropdown .dropdown-label{
+    text-align: left;
+    color: #64748b !important;
+  }
+
+  #nav-menu > ul > li.has-dropdown > .services-dropdown a{
+    width: 100% !important;
+    justify-content: flex-start !important;
+    padding: 12px 14px !important;
+    color: #0f172a !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 12px !important;
+  }
+
+  #nav-menu > ul > li.has-dropdown > .services-dropdown a:hover,
+  #nav-menu > ul > li.has-dropdown > .services-dropdown a:focus-visible{
+    background: rgba(0,128,128,.08) !important;
+    color: var(--teal-dark) !important;
+  }
+}
+/* =========================================================
+   ✅ FINAL DROPDOWN VISIBILITY FIX
+   Put this at the VERY BOTTOM of style.css
+   ========================================================= */
+
+/* Let the dropdown escape the header box */
+.topbar + header{
+  overflow: visible !important;
+}
+
+.topbar + header .header-container{
+  overflow: visible !important;
+}
+
+#nav-menu{
+  overflow: visible !important;
+}
+
+#nav-menu > ul{
+  overflow: visible !important;
+}
+
+#nav-menu > ul > li{
+  position: relative !important;
+  overflow: visible !important;
+}
+
+#nav-menu > ul > li.has-dropdown{
+  position: relative !important;
+  z-index: 2000 !important;
+}
+
+/* Dropdown box */
+#nav-menu > ul > li.has-dropdown > .services-dropdown{
+  display: none;
+  position: absolute !important;
+  top: calc(100% + 10px) !important;
+  left: 0 !important;
+  min-width: 320px !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(226,232,240,.95) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 18px 40px rgba(2,8,23,.18) !important;
+  padding: 10px !important;
+  z-index: 99999 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Show dropdown on hover */
+#nav-menu > ul > li.has-dropdown:hover > .services-dropdown,
+#nav-menu > ul > li.has-dropdown:focus-within > .services-dropdown{
+  display: block !important;
+}
+
+/* Label */
+#nav-menu > ul > li.has-dropdown > .services-dropdown .dropdown-label{
+  display: block !important;
+  padding: 8px 14px 10px !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  color: #64748b !important;
+}
+
+/* Force each dropdown link to be visible */
+#nav-menu > ul > li.has-dropdown > .services-dropdown a{
+  display: flex !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  padding: 12px 14px !important;
+  margin: 2px 0 !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  color: #0f172a !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  white-space: normal !important;
+  transform: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Hover state */
+#nav-menu > ul > li.has-dropdown > .services-dropdown a:hover,
+#nav-menu > ul > li.has-dropdown > .services-dropdown a:focus-visible{
+  background: rgba(0,128,128,.08) !important;
+  color: var(--teal-dark) !important;
+}
+
+/* Arrow on Services */
+#nav-menu > ul > li > a.dropdown-toggle::after{
+  content: "▾";
+  margin-left: 8px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* Mobile version */
+@media (max-width: 980px){
+  .topbar + header{
+  overflow: visible !important;
+}
+
+  .topbar + header .header-container{
+    overflow: visible !important;
+  }
+
+  #nav-menu > ul > li.has-dropdown > .services-dropdown{
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    min-width: 100% !important;
+    margin-top: 10px !important;
+    display: block !important;
+    box-shadow: none !important;
+    border-radius: 14px !important;
+    background: rgba(255,255,255,.96) !important;
+    z-index: auto !important;
+  }
+
+  #nav-menu > ul > li.has-dropdown > .services-dropdown a{
+    color: #0f172a !important;
+    background: transparent !important;
+  }
+}
+.services-dropdown a{
+  font-weight: 500 !important;
+  letter-spacing: .01em;
+}
+/* =========================
+   Anchor scroll offset for sticky header
+========================= */
+.service-section{
+  scroll-margin-top: 140px;
+}
+/* dropdown items not bold */
+body.about-page header #nav-menu ul.services-dropdown a{
+  font-weight:400 !important;
+}
+/* main nav buttons */
+header #nav-menu > ul > li > a{
+  font-weight: 800;
+}
+
+/* dropdown items */
+header #nav-menu .services-dropdown a{
+  font-weight: 400;
+}
+/* =====================================
+   PROFESSIONAL / USER-FRIENDLY NAV UPGRADE
+   ===================================== */
+
+/* slightly tighter overall nav spacing */
+header #nav-menu > ul{
+  gap: 12px !important;
+}
+
+/* main nav links */
+header #nav-menu > ul > li > a{
+  padding: 10px 12px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  font-size: 0.96rem;
+  letter-spacing: 0;
+  min-height: 44px;
+}
+
+/* lighter hover */
+header #nav-menu > ul > li > a:hover{
+  background: rgba(255,255,255,.22) !important;
+}
+
+/* active page */
+header #nav-menu > ul > li > a.active{
+  font-weight: 700 !important;
+}
+
+/* make Patient Portal the primary CTA */
+header #nav-menu > ul > li > a.portal-link{
+  background: rgba(255,224,130,.95) !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(255,224,130,.75) !important;
+  font-weight: 800 !important;
+  box-shadow: 0 10px 18px rgba(2,8,23,.10);
+}
+
+header #nav-menu > ul > li > a.portal-link:hover{
+  background: #ffe9a6 !important;
+  color: #0f172a !important;
+  transform: translateY(-1px);
+}
+
+/* keep Services dropdown professional */
+header #nav-menu li.has-dropdown .services-dropdown{
+  min-width: 290px;
+  border-radius: 16px;
+  padding: 10px;
+}
+
+header #nav-menu li.has-dropdown .services-dropdown .dropdown-label{
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+}
+
+header #nav-menu li.has-dropdown .services-dropdown a{
+  font-weight: 400 !important;
+  font-size: 0.95rem;
+  padding: 11px 12px;
+  border-radius: 12px;
+}
+
+/* reviews link stays normal, not too heavy */
+header #nav-menu > ul > li > a[href="reviews.html"]{
+  font-weight: 600 !important;
+}
+
+/* improve mobile menu */
+@media (max-width: 980px){
+  header #nav-menu > ul{
+    gap: 10px !important;
+  }
+
+  header #nav-menu > ul > li > a{
+    width: 100%;
+    justify-content: center;
+    padding: 12px 14px !important;
+    font-size: 0.98rem;
+  }
+
+  header #nav-menu > ul > li > a.portal-link{
+    order: 99;
+  }
+}
+header .logo img{
+  height: clamp(150px, 6vw, 220px) !important;
+}
+
+header .logo{
+  gap: 10px !important;
+}
+
+header .logo h1{
+  font-size: clamp(15px, 1.35vw, 20px) !important;
+}
+/* =========================================
+   MOBILE: SERVICES DROPDOWN TAP TO OPEN
+   ========================================= */
+@media (max-width:980px){
+
+  /* make the Services item stack neatly */
+  body.header #nav-menu ul li.services-item{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+  }
+
+  /* button/link row for Services */
+  body.header #nav-menu ul li.services-item > a,
+  body.header #nav-menu ul li.services-item > button{
+    width:100%;
+    justify-content:center;
+    padding:12px 14px;
+    border-radius:14px;
+    background: rgba(255,255,255,.14);
+    border: 1px solid rgba(255,255,255,.18);
+    color:#fff;
+    font-weight:800;
+    cursor:pointer;
+  }
+
+  /* hide submenu by default on mobile */
+  body.header #nav-menu ul li.services-item .services-dropdown{
+    display:none;
+    flex-direction:column;
+    gap:8px;
+    margin-top:8px;
+    padding:10px;
+    border-radius:14px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+
+  /* show submenu only when active */
+  body.header #nav-menu ul li.services-item.open .services-dropdown{
+    display:flex;
+  }
+
+  /* submenu links */
+  body.header #nav-menu ul li.services-item .services-dropdown a{
+    width:100%;
+    justify-content:center;
+    padding:10px 12px;
+    border-radius:12px;
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.14);
+    color:#fff;
+    text-decoration:none;
+    font-weight:500 !important;
+  }
+
+  body.header #nav-menu ul li.services-item .services-dropdown a:hover{
+    background: rgba(255,255,255,.18);
+  }
+}
+/* =========================================
+   MOBILE SERVICES DROPDOWN - TAP TO OPEN
+   ========================================= */
+@media (max-width:980px){
+
+  /* keep dropdown item full width */
+  body.header #nav-menu ul li.has-dropdown{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  /* main Services link */
+  body.header #nav-menu ul li.has-dropdown > a.dropdown-toggle{
+    width:100%;
+    justify-content:center;
+    text-align:center;
+    position:relative;
+  }
+
+  /* optional arrow */
+  body.header #nav-menu ul li.has-dropdown > a.dropdown-toggle::after{
+    content:"▾";
+    margin-left:8px;
+    font-size:.9rem;
+    transition:transform .18s ease;
+    display:inline-block;
+  }
+
+  /* rotate arrow when open */
+  body.header #nav-menu ul li.has-dropdown.open > a.dropdown-toggle::after{
+    transform:rotate(180deg);
+  }
+
+  /* hide services by default on mobile */
+  body.header #nav-menu ul li.has-dropdown .services-dropdown{
+    display:none;
+    width:100%;
+    margin-top:8px;
+    padding:10px;
+    border-radius:14px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    box-sizing:border-box;
+  }
+
+  /* show only when tapped */
+  body.header #nav-menu ul li.has-dropdown.open .services-dropdown{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  /* dropdown title */
+  body.header #nav-menu ul li.has-dropdown .dropdown-label{
+    color: rgba(255,255,255,.82);
+    font-size:.8rem;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    padding:4px 6px 8px;
+    text-align:center;
+  }
+
+  /* dropdown links */
+  body.header #nav-menu ul li.has-dropdown .services-dropdown a{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:10px 12px;
+    border-radius:12px;
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.14);
+    color:#fff;
+    text-decoration:none;
+    font-weight:500 !important;
+    letter-spacing:0;
+    box-sizing:border-box;
+  }
+
+  body.header #nav-menu ul li.has-dropdown .services-dropdown a:hover{
+    background: rgba(255,255,255,.18);
+  }
+}
