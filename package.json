@@ -1,0 +1,9 @@
+{
+  "name": "sthw-reviews",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@supabase/supabase-js": "^2.56.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
