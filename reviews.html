@@ -1583,6 +1583,10 @@
           </label>
         </div>
 
+<div style="display:none;">
+  <label for="website">Website</label>
+  <input type="text" id="website" name="website" autocomplete="off">
+</div>
         <div class="review-submit-row">
           <button type="submit" class="review-submit-btn" id="reviewSubmitBtn">
             Submit Feedback for Review
@@ -1628,6 +1632,8 @@
         </a>
       </div>
     </section>
+
+  
   </main>
 
   <a href="/patient-portal.html#portal-section"
@@ -1811,7 +1817,34 @@
     const reviewForm = document.getElementById("reviewForm");
     const reviewFormStatus = document.getElementById("reviewFormStatus");
     const reviewSubmitBtn = document.getElementById("reviewSubmitBtn");
+    const website = document.getElementById("website")?.value || "";
 
+if (website.trim() !== "") {
+  alert("Spam detected.");
+  return;
+}
+if (!reviewMessage || reviewMessage.trim().length < 20) {
+  alert("Please enter at least 20 characters in your review.");
+  return;
+}
+const blockedWords = [
+  "bitcoin",
+  "crypto",
+  "loan",
+  "casino",
+  "viagra",
+  "http://",
+  "https://",
+  "www."
+];
+
+const lowerMessage = reviewMessage.toLowerCase();
+const hasBlockedWord = blockedWords.some(word => lowerMessage.includes(word));
+
+if (hasBlockedWord) {
+  alert("Your review contains blocked content.");
+  return;
+}
     if (reviewForm) {
       reviewForm.addEventListener("submit", async function (e) {
         e.preventDefault();

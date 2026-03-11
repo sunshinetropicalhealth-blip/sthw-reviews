@@ -7,6 +7,17 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+const BLOCKED_WORDS = [
+  "bitcoin",
+  "crypto",
+  "loan",
+  "casino",
+  "viagra",
+  "http://",
+  "https://",
+  "www."
+];
+
 function makeReviewActionToken(reviewId, action, adminEmail) {
   return jwt.sign(
     {
@@ -17,6 +28,11 @@ function makeReviewActionToken(reviewId, action, adminEmail) {
     process.env.REVIEW_ACTION_SECRET,
     { expiresIn: "7d" }
   );
+}
+
+function containsBlockedWords(text) {
+  const lowerText = String(text || "").toLowerCase();
+  return BLOCKED_WORDS.some(word => lowerText.includes(word));
 }
 
 exports.handler = async function (event) {
@@ -39,24 +55,65 @@ exports.handler = async function (event) {
       review_rating,
       review_consent_moderation,
       review_consent_privacy,
-      review_consent_publish
+      review_consent_publish,
+      website
     } = body;
 
-    if (!review_name || !review_email || !review_title || !review_message) {
+    const cleanReviewName = String(review_name || "").trim();
+    const cleanReviewEmail = String(review_email || "").trim();
+    const cleanReviewRelationship = String(review_relationship || "").trim();
+    const cleanReviewTitle = String(review_title || "").trim();
+    const cleanReviewMessage = String(review_message || "").trim();
+    const cleanWebsite = String(website || "").trim();
+
+    // A. Honeypot field check
+    if (cleanWebsite !== "") {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Spam detected." })
+      };
+    }
+
+    // Required fields
+    if (!cleanReviewName || !cleanReviewEmail || !cleanReviewTitle || !cleanReviewMessage) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: "Missing required fields." })
       };
     }
 
+    // B. Minimum review length
+    if (cleanReviewMessage.length < 20) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: "Please enter at least 20 characters in your review."
+        })
+      };
+    }
+
+    // C. Blocked keywords
+    const blockedInMessage = containsBlockedWords(cleanReviewMessage);
+    const blockedInTitle = containsBlockedWords(cleanReviewTitle);
+    const blockedInName = containsBlockedWords(cleanReviewName);
+
+    if (blockedInMessage || blockedInTitle || blockedInName) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: "Your review contains blocked content."
+        })
+      };
+    }
+
     const { data, error } = await supabase
       .from("reviews")
       .insert([{
-        review_name,
-        review_email,
-        review_relationship,
-        review_title,
-        review_message,
+        review_name: cleanReviewName,
+        review_email: cleanReviewEmail,
+        review_relationship: cleanReviewRelationship,
+        review_title: cleanReviewTitle,
+        review_message: cleanReviewMessage,
         rating: Number(review_rating || 5),
         review_consent_moderation,
         review_consent_privacy,
@@ -87,11 +144,11 @@ exports.handler = async function (event) {
     const reject_link = `${process.env.SITE_URL}/.netlify/functions/review-action?token=${encodeURIComponent(rejectToken)}`;
 
     const templateParams = {
-      review_name,
-      review_email,
-      review_relationship,
-      review_title,
-      review_message,
+      review_name: cleanReviewName,
+      review_email: cleanReviewEmail,
+      review_relationship: cleanReviewRelationship,
+      review_title: cleanReviewTitle,
+      review_message: cleanReviewMessage,
       review_rating,
       review_consent_moderation,
       review_consent_privacy,

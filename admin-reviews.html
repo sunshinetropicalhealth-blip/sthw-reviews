@@ -1,177 +1,507 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Review Moderation | Sunshine Tropical Health</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review Moderation | Sunshine Tropical Health</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-const ADMIN_PASSWORD = "1qaz2wsx!QAZ@WSX";
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-const entered = prompt("Enter admin password");
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:#f2f2f2;
+      color:#0f172a;
+    }
 
-if(entered !== ADMIN_PASSWORD){
-document.body.innerHTML="Access denied";
-}
+    .page-wrap{
+      max-width:1000px;
+      margin:0 auto;
+      padding:40px 20px 60px;
+    }
 
-</script>
-<style>
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:24px;
+    }
 
-body{
-font-family:Arial, Helvetica, sans-serif;
-background:#f2f2f2;
-padding:40px;
-}
+    h1{
+      margin:0;
+      color:#0f766e;
+      font-size:2rem;
+    }
 
-h1{
-color:#0f766e;
-margin-bottom:20px;
-}
+    .subtext{
+      color:#64748b;
+      margin-top:8px;
+      line-height:1.6;
+    }
 
-.review-card{
-background:white;
-border-radius:12px;
-padding:20px;
-margin-bottom:18px;
-box-shadow:0 6px 14px rgba(0,0,0,.08);
-border-left:6px solid #008080;
-}
+    .panel{
+      background:white;
+      border-radius:16px;
+      padding:24px;
+      box-shadow:0 8px 24px rgba(0,0,0,.08);
+      margin-bottom:24px;
+      border:1px solid rgba(15,118,110,.10);
+    }
 
-.review-title{
-font-weight:800;
-margin-bottom:6px;
-}
+    .login-panel{
+      max-width:560px;
+      margin:40px auto 0;
+    }
 
-.review-meta{
-font-size:.9rem;
-color:#64748b;
-margin-bottom:10px;
-}
+    label{
+      display:block;
+      font-weight:700;
+      margin-bottom:8px;
+      color:#0f172a;
+    }
 
-.review-message{
-margin-bottom:12px;
-line-height:1.6;
-}
+    input[type="email"]{
+      width:100%;
+      padding:14px 16px;
+      border:1px solid #cbd5e1;
+      border-radius:12px;
+      font-size:1rem;
+      outline:none;
+      margin-bottom:14px;
+    }
 
-button{
-border:none;
-padding:10px 16px;
-border-radius:8px;
-cursor:pointer;
-font-weight:700;
-margin-right:8px;
-}
+    input[type="email"]:focus{
+      border-color:#0f766e;
+      box-shadow:0 0 0 4px rgba(15,118,110,.10);
+    }
 
-.approve{
-background:#10b981;
-color:white;
-}
+    .btn{
+      border:none;
+      padding:11px 16px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:.96rem;
+      transition:transform .12s ease, opacity .12s ease;
+      margin-right:8px;
+      margin-top:6px;
+    }
 
-.reject{
-background:#ef4444;
-color:white;
-}
+    .btn:hover{
+      transform:translateY(-1px);
+      opacity:.96;
+    }
 
-</style>
+    .btn-primary{
+      background:#0f766e;
+      color:white;
+    }
+
+    .btn-secondary{
+      background:#e2e8f0;
+      color:#0f172a;
+    }
+
+    .approve{
+      background:#10b981;
+      color:white;
+    }
+
+    .reject{
+      background:#ef4444;
+      color:white;
+    }
+
+    .review-card{
+      background:white;
+      border-radius:14px;
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:0 6px 14px rgba(0,0,0,.08);
+      border-left:6px solid #008080;
+    }
+
+    .review-title{
+      font-weight:800;
+      margin-bottom:6px;
+      font-size:1.08rem;
+      color:#0f172a;
+    }
+
+    .review-meta{
+      font-size:.92rem;
+      color:#64748b;
+      margin-bottom:10px;
+      line-height:1.5;
+    }
+
+    .review-message{
+      margin-bottom:14px;
+      line-height:1.7;
+      color:#1e293b;
+      white-space:pre-wrap;
+    }
+
+    .review-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .status-box{
+      padding:12px 14px;
+      border-radius:12px;
+      margin-bottom:16px;
+      font-weight:700;
+      display:none;
+    }
+
+    .status-info{
+      background:#ecfeff;
+      color:#155e75;
+      border:1px solid #a5f3fc;
+    }
+
+    .status-error{
+      background:#fef2f2;
+      color:#991b1b;
+      border:1px solid #fecaca;
+    }
+
+    .muted{
+      color:#64748b;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    .user-pill{
+      background:#ecfeff;
+      color:#0f766e;
+      border:1px solid rgba(15,118,110,.18);
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:.92rem;
+    }
+
+    .empty-state{
+      background:white;
+      border-radius:14px;
+      padding:24px;
+      text-align:center;
+      color:#64748b;
+      box-shadow:0 6px 14px rgba(0,0,0,.06);
+    }
+
+    @media (max-width:640px){
+      .page-wrap{
+        padding:28px 14px 50px;
+      }
+
+      h1{
+        font-size:1.7rem;
+      }
+
+      .panel,
+      .review-card{
+        padding:18px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="page-wrap">
+    <div id="loginSection" class="panel login-panel hidden">
+      <h1>Admin Review Login</h1>
+      <p class="subtext">
+        Sign in with your admin email to access pending review moderation.
+      </p>
 
-<h1>Pending Reviews</h1>
+      <div id="loginStatus" class="status-box status-info"></div>
+      <div id="loginError" class="status-box status-error"></div>
 
-<div id="reviewList"></div>
+      <label for="adminEmail">Admin Email</label>
+      <input
+        type="email"
+        id="adminEmail"
+        placeholder="Enter your admin email"
+        autocomplete="email"
+      />
 
-<script>
+      <button class="btn btn-primary" id="sendMagicLinkBtn">
+        Send Magic Link
+      </button>
+    </div>
 
-const SUPABASE_URL = "https://qdysdamxttccpgetscai.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFkeXNkYW14dHRjY3BnZXRzY2FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNjIxNTQsImV4cCI6MjA4ODczODE1NH0.0w-9JyX9AMkWoCQ7LYuIeIdEH3Vx1XDGaglmDCOI8k8";
+    <div id="adminSection" class="hidden">
+      <div class="topbar">
+        <div>
+          <h1>Pending Reviews</h1>
+          <div class="subtext">
+            Only your authorized admin email can approve or reject reviews.
+          </div>
+        </div>
 
-const supabaseClient = supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
-);
+        <div>
+          <span id="adminUserPill" class="user-pill hidden"></span>
+          <button class="btn btn-secondary" id="logoutBtn">Log Out</button>
+        </div>
+      </div>
 
-async function loadReviews(){
+      <div id="adminStatus" class="status-box status-info"></div>
+      <div id="adminError" class="status-box status-error"></div>
 
-const { data, error } = await supabaseClient
-.from("reviews")
-.select("*")
-.eq("approved", false)
-.eq("rejected", false)
-.order("created_at", { ascending:false });
+      <div id="reviewList"></div>
+    </div>
+  </div>
 
-const list = document.getElementById("reviewList");
+  <script>
+    const SUPABASE_URL = "https://qdysdamxttccpgetscai.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFkeXNkYW14dHRjY3BnZXRzY2FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNjIxNTQsImV4cCI6MjA4ODczODE1NH0.0w-9JyX9AMkWoCQ7LYuIeIdEH3Vx1XDGaglmDCOI8k8";
+    const ADMIN_EMAIL = "sunshinetropicalhealth@gmail.com";
 
-if(error){
-list.innerHTML="Error loading reviews";
-return;
-}
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-if(!data.length){
-list.innerHTML="No pending reviews.";
-return;
-}
+    const loginSection = document.getElementById("loginSection");
+    const adminSection = document.getElementById("adminSection");
+    const reviewList = document.getElementById("reviewList");
+    const adminEmailInput = document.getElementById("adminEmail");
+    const sendMagicLinkBtn = document.getElementById("sendMagicLinkBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const adminUserPill = document.getElementById("adminUserPill");
 
-list.innerHTML=data.map(r => `
+    const loginStatus = document.getElementById("loginStatus");
+    const loginError = document.getElementById("loginError");
+    const adminStatus = document.getElementById("adminStatus");
+    const adminError = document.getElementById("adminError");
 
-<div class="review-card">
+    function showBox(el, message){
+      el.textContent = message;
+      el.style.display = "block";
+    }
 
-<div class="review-title">${r.review_title}</div>
+    function hideBox(el){
+      el.textContent = "";
+      el.style.display = "none";
+    }
 
-<div class="review-meta">
-${r.review_name} • ${r.review_relationship || ""}
-</div>
+    function escapeHtml(value){
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
 
-<div class="review-message">
-${r.review_message}
-</div>
+    function showLogin(){
+      loginSection.classList.remove("hidden");
+      adminSection.classList.add("hidden");
+      adminUserPill.classList.add("hidden");
+    }
 
-<button class="approve" onclick="approveReview('${r.id}')">
-Approve
-</button>
+    function showAdmin(email){
+      loginSection.classList.add("hidden");
+      adminSection.classList.remove("hidden");
+      adminUserPill.textContent = email;
+      adminUserPill.classList.remove("hidden");
+    }
 
-<button class="reject" onclick="rejectReview('${r.id}')">
-Reject
-</button>
+    async function sendMagicLink(){
+      hideBox(loginError);
+      hideBox(loginStatus);
 
-</div>
+      const email = adminEmailInput.value.trim().toLowerCase();
 
-`).join("");
+      if(!email){
+        showBox(loginError, "Please enter your admin email.");
+        return;
+      }
 
-}
+      if(email !== ADMIN_EMAIL.toLowerCase()){
+        showBox(loginError, "That email is not authorized for this admin page.");
+        return;
+      }
 
-async function approveReview(id){
+      sendMagicLinkBtn.disabled = true;
+      sendMagicLinkBtn.textContent = "Sending...";
 
-await supabaseClient
-.from("reviews")
-.update({
-approved:true,
-approved_at:new Date().toISOString()
-})
-.eq("id",id);
+      const { error } = await supabaseClient.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: window.location.origin + "/admin-reviews.html"
+        }
+      });
 
-loadReviews();
+      sendMagicLinkBtn.disabled = false;
+      sendMagicLinkBtn.textContent = "Send Magic Link";
 
-}
+      if(error){
+        showBox(loginError, error.message);
+        return;
+      }
 
-async function rejectReview(id){
+      showBox(loginStatus, "Magic link sent. Check your email and open the login link.");
+    }
 
-await supabaseClient
-.from("reviews")
-.update({
-rejected:true,
-rejected_at:new Date().toISOString()
-})
-.eq("id",id);
+    async function logout(){
+      hideBox(adminError);
+      hideBox(adminStatus);
 
-loadReviews();
+      await supabaseClient.auth.signOut();
+      showLogin();
+      reviewList.innerHTML = "";
+      showBox(loginStatus, "You have been logged out.");
+    }
 
-}
+    async function checkAdminAccess(){
+      hideBox(loginError);
+      hideBox(adminError);
+      hideBox(loginStatus);
+      hideBox(adminStatus);
 
-loadReviews();
+      const { data, error } = await supabaseClient.auth.getUser();
 
-</script>
+      if(error){
+        showLogin();
+        showBox(loginError, "Unable to verify login. Please try again.");
+        return;
+      }
 
+      const user = data?.user;
+
+      if(!user){
+        showLogin();
+        return;
+      }
+
+      const userEmail = (user.email || "").trim().toLowerCase();
+
+      if(userEmail !== ADMIN_EMAIL.toLowerCase()){
+        await supabaseClient.auth.signOut();
+        showLogin();
+        showBox(loginError, "Access denied. This account is not authorized.");
+        return;
+      }
+
+      showAdmin(userEmail);
+      await loadReviews();
+    }
+
+    async function loadReviews(){
+      hideBox(adminError);
+      hideBox(adminStatus);
+
+      reviewList.innerHTML = '<div class="empty-state">Loading pending reviews...</div>';
+
+      const { data, error } = await supabaseClient
+        .from("reviews")
+        .select("*")
+        .eq("approved", false)
+        .eq("rejected", false)
+        .order("created_at", { ascending: false });
+
+      if(error){
+        reviewList.innerHTML = "";
+        showBox(adminError, "Error loading reviews: " + error.message);
+        return;
+      }
+
+      if(!data || !data.length){
+        reviewList.innerHTML = '<div class="empty-state">No pending reviews.</div>';
+        return;
+      }
+
+      reviewList.innerHTML = data.map(r => `
+        <div class="review-card">
+          <div class="review-title">${escapeHtml(r.review_title || "Untitled Review")}</div>
+
+          <div class="review-meta">
+            <strong>Name:</strong> ${escapeHtml(r.review_name || "Anonymous")}
+            ${r.review_relationship ? `• <strong>Relationship:</strong> ${escapeHtml(r.review_relationship)}` : ""}
+            ${r.created_at ? `• <strong>Submitted:</strong> ${escapeHtml(new Date(r.created_at).toLocaleString())}` : ""}
+          </div>
+
+          <div class="review-message">${escapeHtml(r.review_message || "")}</div>
+
+          <div class="review-actions">
+            <button class="btn approve" onclick="approveReview('${escapeHtml(r.id)}')">Approve</button>
+            <button class="btn reject" onclick="rejectReview('${escapeHtml(r.id)}')">Reject</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    async function approveReview(id){
+      hideBox(adminError);
+      hideBox(adminStatus);
+
+      const confirmed = confirm("Approve this review?");
+      if(!confirmed) return;
+
+      const { error } = await supabaseClient
+        .from("reviews")
+        .update({
+          approved: true,
+          approved_at: new Date().toISOString()
+        })
+        .eq("id", id);
+
+      if(error){
+        showBox(adminError, "Error approving review: " + error.message);
+        return;
+      }
+
+      showBox(adminStatus, "Review approved successfully.");
+      await loadReviews();
+    }
+
+    async function rejectReview(id){
+      hideBox(adminError);
+      hideBox(adminStatus);
+
+      const confirmed = confirm("Reject this review?");
+      if(!confirmed) return;
+
+      const { error } = await supabaseClient
+        .from("reviews")
+        .update({
+          rejected: true,
+          rejected_at: new Date().toISOString()
+        })
+        .eq("id", id);
+
+      if(error){
+        showBox(adminError, "Error rejecting review: " + error.message);
+        return;
+      }
+
+      showBox(adminStatus, "Review rejected successfully.");
+      await loadReviews();
+    }
+
+    sendMagicLinkBtn.addEventListener("click", sendMagicLink);
+    logoutBtn.addEventListener("click", logout);
+
+    supabaseClient.auth.onAuthStateChange(async () => {
+      await checkAdminAccess();
+    });
+
+    window.addEventListener("load", async () => {
+      await checkAdminAccess();
+    });
+
+    window.approveReview = approveReview;
+    window.rejectReview = rejectReview;
+  </script>
 </body>
 </html>
