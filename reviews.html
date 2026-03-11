@@ -1820,7 +1820,7 @@ if (reviewForm) {
       reviewFormStatus.textContent = "";
     }
 
-    const templateParams = {
+  const templateParams = {
   review_name: reviewForm.review_name.value,
   review_email: reviewForm.review_email.value,
   review_relationship: reviewForm.review_relationship.value,
@@ -2087,6 +2087,75 @@ async function loadApprovedReviews() {
 }
 
 loadApprovedReviews();
+</script>
+<script>
+  const reviewForm = document.getElementById("reviewForm");
+const reviewFormStatus = document.getElementById("reviewFormStatus");
+const reviewSubmitBtn = document.getElementById("reviewSubmitBtn");
+
+if (reviewForm) {
+  reviewForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const honeyPot = reviewForm.querySelector('input[name="website"]');
+    if (honeyPot && honeyPot.value.trim() !== "") {
+      return;
+    }
+
+    if (reviewSubmitBtn) {
+      reviewSubmitBtn.disabled = true;
+      reviewSubmitBtn.textContent = "Submitting...";
+    }
+
+    if (reviewFormStatus) {
+      reviewFormStatus.className = "review-form-status";
+      reviewFormStatus.textContent = "";
+    }
+
+    const payload = {
+      review_name: reviewForm.review_name.value,
+      review_email: reviewForm.review_email.value,
+      review_relationship: reviewForm.review_relationship.value,
+      review_title: reviewForm.review_title.value,
+      review_message: reviewForm.review_message.value,
+      review_rating: reviewForm.review_rating ? reviewForm.review_rating.value : "5",
+      review_consent_moderation: reviewForm.review_consent_moderation.checked ? "Yes" : "No",
+      review_consent_privacy: reviewForm.review_consent_privacy.checked ? "Yes" : "No",
+      review_consent_publish: reviewForm.review_consent_publish.checked ? "Yes" : "No"
+    };
+
+    try {
+      const response = await fetch("/.netlify/functions/submit-review", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Submission failed.");
+      }
+
+      reviewFormStatus.className = "review-form-status success";
+      reviewFormStatus.textContent =
+        "Thank you. Your feedback has been submitted for provider review.";
+      reviewForm.reset();
+    } catch (error) {
+      console.error(error);
+      reviewFormStatus.className = "review-form-status error";
+      reviewFormStatus.textContent =
+        "We were unable to submit your feedback at this time. Please try again later.";
+    } finally {
+      if (reviewSubmitBtn) {
+        reviewSubmitBtn.disabled = false;
+        reviewSubmitBtn.textContent = "Submit Feedback for Provider Review";
+      }
+    }
+  });
+}
 </script>
 </body>
 </html>
