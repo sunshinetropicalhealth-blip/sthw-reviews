@@ -1705,7 +1705,7 @@
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   function renderStars(rating) {
-    const count = Number(rating || 0);
+    const count = Math.max(0, Math.min(5, Number(rating || 0)));
     return "★".repeat(count) + "☆".repeat(5 - count);
   }
 
@@ -1716,6 +1716,10 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
+  }
+
+  function money(n) {
+    return `$${Number(n || 0).toFixed(2)}`;
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -1817,15 +1821,15 @@
       reviewForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const review_name = reviewForm.review_name.value.trim();
-        const review_email = reviewForm.review_email.value.trim();
-        const review_relationship = reviewForm.review_relationship.value.trim();
-        const review_title = reviewForm.review_title.value.trim();
-        const review_message = reviewForm.review_message.value.trim();
-        const review_rating = reviewForm.review_rating ? reviewForm.review_rating.value : "5";
-        const review_consent_moderation = reviewForm.review_consent_moderation.checked ? "Yes" : "No";
-        const review_consent_privacy = reviewForm.review_consent_privacy.checked ? "Yes" : "No";
-        const review_consent_publish = reviewForm.review_consent_publish.checked ? "Yes" : "No";
+        const review_name = reviewForm.review_name?.value.trim() || "";
+        const review_email = reviewForm.review_email?.value.trim() || "";
+        const review_relationship = reviewForm.review_relationship?.value.trim() || "";
+        const review_title = reviewForm.review_title?.value.trim() || "";
+        const review_message = reviewForm.review_message?.value.trim() || "";
+        const rating = Number(reviewForm.review_rating?.value || 5);
+        const review_consent_moderation = !!reviewForm.review_consent_moderation?.checked;
+        const review_consent_privacy = !!reviewForm.review_consent_privacy?.checked;
+        const review_consent_publish = !!reviewForm.review_consent_publish?.checked;
         const website = document.getElementById("website")?.value.trim() || "";
 
         if (reviewFormStatus) {
@@ -1833,7 +1837,22 @@
           reviewFormStatus.textContent = "";
         }
 
-        // Honeypot
+        if (!review_name || !review_email || !review_relationship || !review_title || !review_message) {
+          if (reviewFormStatus) {
+            reviewFormStatus.className = "review-form-status error";
+            reviewFormStatus.textContent = "Please complete all required fields.";
+          }
+          return;
+        }
+
+        if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+          if (reviewFormStatus) {
+            reviewFormStatus.className = "review-form-status error";
+            reviewFormStatus.textContent = "Please select a valid rating.";
+          }
+          return;
+        }
+
         if (website !== "") {
           if (reviewFormStatus) {
             reviewFormStatus.className = "review-form-status error";
@@ -1842,8 +1861,7 @@
           return;
         }
 
-        // Minimum length
-        if (!review_message || review_message.length < 20) {
+        if (review_message.length < 20) {
           if (reviewFormStatus) {
             reviewFormStatus.className = "review-form-status error";
             reviewFormStatus.textContent = "Please enter at least 20 characters in your review.";
@@ -1851,7 +1869,6 @@
           return;
         }
 
-        // Blocked keywords
         const blockedWords = [
           "bitcoin",
           "crypto",
@@ -1866,11 +1883,13 @@
         const lowerMessage = review_message.toLowerCase();
         const lowerTitle = review_title.toLowerCase();
         const lowerName = review_name.toLowerCase();
+        const lowerEmail = review_email.toLowerCase();
 
         const hasBlockedWord =
-          blockedWords.some(word => lowerMessage.includes(word)) ||
-          blockedWords.some(word => lowerTitle.includes(word)) ||
-          blockedWords.some(word => lowerName.includes(word));
+          blockedWords.some((word) => lowerMessage.includes(word)) ||
+          blockedWords.some((word) => lowerTitle.includes(word)) ||
+          blockedWords.some((word) => lowerName.includes(word)) ||
+          blockedWords.some((word) => lowerEmail.includes(word));
 
         if (hasBlockedWord) {
           if (reviewFormStatus) {
@@ -1891,7 +1910,7 @@
           review_relationship,
           review_title,
           review_message,
-          review_rating,
+          rating,
           review_consent_moderation,
           review_consent_privacy,
           review_consent_publish,
@@ -1907,7 +1926,14 @@
             body: JSON.stringify(payload)
           });
 
-          const result = await response.json();
+          const raw = await response.text();
+          let result = {};
+
+          try {
+            result = raw ? JSON.parse(raw) : {};
+          } catch {
+            result = { error: raw || "Submission failed." };
+          }
 
           if (!response.ok) {
             throw new Error(result.error || "Submission failed.");
@@ -1949,10 +1975,6 @@
     const checkoutBtn = $("#checkoutBtn");
     const clearCartBtn = $("#clearCartBtn");
     const cartWarn = $("#cartWarn");
-
-    function money(n) {
-      return `$${Number(n || 0).toFixed(2)}`;
-    }
 
     function loadCart() {
       try {
@@ -2032,12 +2054,12 @@
         return `
           <div class="cart-item" data-id="${item.id}">
             <div class="row">
-              <strong style="color:#0f172a">${item.name}</strong>
+              <strong style="color:#0f172a">${escapeHtml(item.name)}</strong>
               <span style="font-weight:1000;color:#008080">${money(item.price)}</span>
             </div>
             <div class="row">
               <span style="color:#475569;font-size:.92rem;">
-                ${item.category || ""}${item.requiresConsult ? " • Requires consult" : ""}${item.isConsult ? " • Consult" : ""}
+                ${escapeHtml(item.category || "")}${item.requiresConsult ? " • Requires consult" : ""}${item.isConsult ? " • Consult" : ""}
               </span>
               <div class="qty" aria-label="Quantity controls">
                 <button type="button" data-dec>-</button>

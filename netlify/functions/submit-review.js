@@ -32,7 +32,19 @@ function makeReviewActionToken(reviewId, action, adminEmail) {
 
 function containsBlockedWords(text) {
   const lowerText = String(text || "").toLowerCase();
-  return BLOCKED_WORDS.some(word => lowerText.includes(word));
+  return BLOCKED_WORDS.some((word) => lowerText.includes(word));
+}
+
+function parseJsonSafe(value) {
+  try {
+    return JSON.parse(value || "{}");
+  } catch {
+    return null;
+  }
+}
+
+function yesNo(value) {
+  return value ? "Yes" : "No";
 }
 
 exports.handler = async function (event) {
@@ -40,11 +52,23 @@ exports.handler = async function (event) {
     if (event.httpMethod !== "POST") {
       return {
         statusCode: 405,
-        body: "Method not allowed"
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ error: "Method not allowed" })
       };
     }
 
-    const body = JSON.parse(event.body || "{}");
+    const body = parseJsonSafe(event.body);
+    if (!body) {
+      return {
+        statusCode: 400,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ error: "Invalid request body." })
+      };
+    }
 
     const {
       review_name,
@@ -52,6 +76,7 @@ exports.handler = async function (event) {
       review_relationship,
       review_title,
       review_message,
+      rating,
       review_rating,
       review_consent_moderation,
       review_consent_privacy,
@@ -66,45 +91,90 @@ exports.handler = async function (event) {
     const cleanReviewMessage = String(review_message || "").trim();
     const cleanWebsite = String(website || "").trim();
 
-    // A. Honeypot field check
+    const normalizedRating = Number(rating || review_rating || 5);
+
     if (cleanWebsite !== "") {
       return {
         statusCode: 400,
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({ error: "Spam detected." })
       };
     }
 
-    // Required fields
-    if (!cleanReviewName || !cleanReviewEmail || !cleanReviewTitle || !cleanReviewMessage) {
+    if (
+      !cleanReviewName ||
+      !cleanReviewEmail ||
+      !cleanReviewTitle ||
+      !cleanReviewMessage
+    ) {
       return {
         statusCode: 400,
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({ error: "Missing required fields." })
       };
     }
 
-    // B. Minimum review length
     if (cleanReviewMessage.length < 20) {
       return {
         statusCode: 400,
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           error: "Please enter at least 20 characters in your review."
         })
       };
     }
 
-    // C. Blocked keywords
+    if (!Number.isInteger(normalizedRating) || normalizedRating < 1 || normalizedRating > 5) {
+      return {
+        statusCode: 400,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          error: "Please select a valid rating."
+        })
+      };
+    }
+
+    const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanReviewEmail);
+    if (!emailIsValid) {
+      return {
+        statusCode: 400,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          error: "Please enter a valid email address."
+        })
+      };
+    }
+
     const blockedInMessage = containsBlockedWords(cleanReviewMessage);
     const blockedInTitle = containsBlockedWords(cleanReviewTitle);
     const blockedInName = containsBlockedWords(cleanReviewName);
+    const blockedInEmail = containsBlockedWords(cleanReviewEmail);
 
-    if (blockedInMessage || blockedInTitle || blockedInName) {
+    if (blockedInMessage || blockedInTitle || blockedInName || blockedInEmail) {
       return {
         statusCode: 400,
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           error: "Your review contains blocked content."
         })
       };
     }
+
+    const moderationValue = yesNo(review_consent_moderation);
+    const privacyValue = yesNo(review_consent_privacy);
+    const publishValue = yesNo(review_consent_publish);
 
     const { data, error } = await supabase
       .from("reviews")
@@ -114,10 +184,10 @@ exports.handler = async function (event) {
         review_relationship: cleanReviewRelationship,
         review_title: cleanReviewTitle,
         review_message: cleanReviewMessage,
-        rating: Number(review_rating || 5),
-        review_consent_moderation,
-        review_consent_privacy,
-        review_consent_publish,
+        rating: normalizedRating,
+        review_consent_moderation: moderationValue,
+        review_consent_privacy: privacyValue,
+        review_consent_publish: publishValue,
         approved: false,
         rejected: false
       }])
@@ -149,10 +219,11 @@ exports.handler = async function (event) {
       review_relationship: cleanReviewRelationship,
       review_title: cleanReviewTitle,
       review_message: cleanReviewMessage,
-      review_rating,
-      review_consent_moderation,
-      review_consent_privacy,
-      review_consent_publish,
+      review_rating: normalizedRating,
+      rating: normalizedRating,
+      review_consent_moderation: moderationValue,
+      review_consent_privacy: privacyValue,
+      review_consent_publish: publishValue,
       approve_link,
       reject_link
     };
@@ -179,12 +250,18 @@ exports.handler = async function (event) {
 
     return {
       statusCode: 200,
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({ success: true })
     };
   } catch (err) {
-    console.error(err);
+    console.error("submit-review error:", err);
     return {
       statusCode: 500,
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({ error: "Unable to submit review." })
     };
   }

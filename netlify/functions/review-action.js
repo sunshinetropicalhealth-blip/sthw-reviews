@@ -13,17 +13,53 @@ exports.handler = async function (event) {
     if (!token) {
       return {
         statusCode: 400,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8"
+        },
         body: "Missing token."
       };
     }
 
     const decoded = jwt.verify(token, process.env.REVIEW_ACTION_SECRET);
-    const { review_id, action, admin_email } = decoded;
+    const { review_id, action, admin_email } = decoded || {};
 
     if (!review_id || !action) {
       return {
         statusCode: 400,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8"
+        },
         body: "Invalid token."
+      };
+    }
+
+    if (action !== "approve" && action !== "reject") {
+      return {
+        statusCode: 400,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8"
+        },
+        body: "Invalid action."
+      };
+    }
+
+    const { data: existingReview, error: lookupError } = await supabase
+      .from("reviews")
+      .select("id, approved, rejected")
+      .eq("id", review_id)
+      .maybeSingle();
+
+    if (lookupError) {
+      throw lookupError;
+    }
+
+    if (!existingReview) {
+      return {
+        statusCode: 404,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8"
+        },
+        body: "Review not found."
       };
     }
 
@@ -71,13 +107,19 @@ exports.handler = async function (event) {
 
     return {
       statusCode: 400,
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8"
+      },
       body: "Invalid action."
     };
   } catch (err) {
-    console.error(err);
+    console.error("review-action error:", err);
 
     return {
       statusCode: 403,
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8"
+      },
       body: "Invalid or expired approval link."
     };
   }
