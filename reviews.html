@@ -1497,11 +1497,6 @@
       </div>
 
       <form id="reviewForm">
-        <div style="display:none;">
-          <label>Leave this field empty
-            <input type="text" name="website" tabindex="-1" autocomplete="off">
-          </label>
-        </div>
 
         <div class="review-form-grid">
           <div class="field">
@@ -1817,40 +1812,71 @@
     const reviewForm = document.getElementById("reviewForm");
     const reviewFormStatus = document.getElementById("reviewFormStatus");
     const reviewSubmitBtn = document.getElementById("reviewSubmitBtn");
-    const website = document.getElementById("website")?.value || "";
 
-if (website.trim() !== "") {
-  alert("Spam detected.");
-  return;
-}
-if (!reviewMessage || reviewMessage.trim().length < 20) {
-  alert("Please enter at least 20 characters in your review.");
-  return;
-}
-const blockedWords = [
-  "bitcoin",
-  "crypto",
-  "loan",
-  "casino",
-  "viagra",
-  "http://",
-  "https://",
-  "www."
-];
-
-const lowerMessage = reviewMessage.toLowerCase();
-const hasBlockedWord = blockedWords.some(word => lowerMessage.includes(word));
-
-if (hasBlockedWord) {
-  alert("Your review contains blocked content.");
-  return;
-}
     if (reviewForm) {
       reviewForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const honeyPot = reviewForm.querySelector('input[name="website"]');
-        if (honeyPot && honeyPot.value.trim() !== "") {
+        const review_name = reviewForm.review_name.value.trim();
+        const review_email = reviewForm.review_email.value.trim();
+        const review_relationship = reviewForm.review_relationship.value.trim();
+        const review_title = reviewForm.review_title.value.trim();
+        const review_message = reviewForm.review_message.value.trim();
+        const review_rating = reviewForm.review_rating ? reviewForm.review_rating.value : "5";
+        const review_consent_moderation = reviewForm.review_consent_moderation.checked ? "Yes" : "No";
+        const review_consent_privacy = reviewForm.review_consent_privacy.checked ? "Yes" : "No";
+        const review_consent_publish = reviewForm.review_consent_publish.checked ? "Yes" : "No";
+        const website = document.getElementById("website")?.value.trim() || "";
+
+        if (reviewFormStatus) {
+          reviewFormStatus.className = "review-form-status";
+          reviewFormStatus.textContent = "";
+        }
+
+        // Honeypot
+        if (website !== "") {
+          if (reviewFormStatus) {
+            reviewFormStatus.className = "review-form-status error";
+            reviewFormStatus.textContent = "Spam detected.";
+          }
+          return;
+        }
+
+        // Minimum length
+        if (!review_message || review_message.length < 20) {
+          if (reviewFormStatus) {
+            reviewFormStatus.className = "review-form-status error";
+            reviewFormStatus.textContent = "Please enter at least 20 characters in your review.";
+          }
+          return;
+        }
+
+        // Blocked keywords
+        const blockedWords = [
+          "bitcoin",
+          "crypto",
+          "loan",
+          "casino",
+          "viagra",
+          "http://",
+          "https://",
+          "www."
+        ];
+
+        const lowerMessage = review_message.toLowerCase();
+        const lowerTitle = review_title.toLowerCase();
+        const lowerName = review_name.toLowerCase();
+
+        const hasBlockedWord =
+          blockedWords.some(word => lowerMessage.includes(word)) ||
+          blockedWords.some(word => lowerTitle.includes(word)) ||
+          blockedWords.some(word => lowerName.includes(word));
+
+        if (hasBlockedWord) {
+          if (reviewFormStatus) {
+            reviewFormStatus.className = "review-form-status error";
+            reviewFormStatus.textContent = "Your review contains blocked content.";
+          }
           return;
         }
 
@@ -1859,21 +1885,17 @@ if (hasBlockedWord) {
           reviewSubmitBtn.textContent = "Submitting...";
         }
 
-        if (reviewFormStatus) {
-          reviewFormStatus.className = "review-form-status";
-          reviewFormStatus.textContent = "";
-        }
-
         const payload = {
-          review_name: reviewForm.review_name.value,
-          review_email: reviewForm.review_email.value,
-          review_relationship: reviewForm.review_relationship.value,
-          review_title: reviewForm.review_title.value,
-          review_message: reviewForm.review_message.value,
-          review_rating: reviewForm.review_rating ? reviewForm.review_rating.value : "5",
-          review_consent_moderation: reviewForm.review_consent_moderation.checked ? "Yes" : "No",
-          review_consent_privacy: reviewForm.review_consent_privacy.checked ? "Yes" : "No",
-          review_consent_publish: reviewForm.review_consent_publish.checked ? "Yes" : "No"
+          review_name,
+          review_email,
+          review_relationship,
+          review_title,
+          review_message,
+          review_rating,
+          review_consent_moderation,
+          review_consent_privacy,
+          review_consent_publish,
+          website
         };
 
         try {
@@ -1903,12 +1925,12 @@ if (hasBlockedWord) {
           if (reviewFormStatus) {
             reviewFormStatus.className = "review-form-status error";
             reviewFormStatus.textContent =
-              "We were unable to submit your feedback at this time. Please try again later.";
+              error.message || "We were unable to submit your feedback at this time. Please try again later.";
           }
         } finally {
           if (reviewSubmitBtn) {
             reviewSubmitBtn.disabled = false;
-            reviewSubmitBtn.textContent = "Submit Feedback for Provider Review";
+            reviewSubmitBtn.textContent = "Submit Feedback for Review";
           }
         }
       });
