@@ -43,29 +43,27 @@ function parseJsonSafe(value) {
   }
 }
 
-function yesNo(value) {
-  return value ? "Yes" : "No";
-}
-
 exports.handler = async function (event) {
   try {
+    console.log("submit-review invoked", {
+      method: event.httpMethod,
+      hasBody: !!event.body
+    });
+
     if (event.httpMethod !== "POST") {
       return {
         statusCode: 405,
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ error: "Method not allowed" })
       };
     }
 
     const body = parseJsonSafe(event.body);
     if (!body) {
+      console.log("Invalid JSON body");
       return {
         statusCode: 400,
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ error: "Invalid request body." })
       };
     }
@@ -90,15 +88,12 @@ exports.handler = async function (event) {
     const cleanReviewTitle = String(review_title || "").trim();
     const cleanReviewMessage = String(review_message || "").trim();
     const cleanWebsite = String(website || "").trim();
-
     const normalizedRating = Number(rating || review_rating || 5);
 
     if (cleanWebsite !== "") {
       return {
         statusCode: 400,
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ error: "Spam detected." })
       };
     }
@@ -106,14 +101,13 @@ exports.handler = async function (event) {
     if (
       !cleanReviewName ||
       !cleanReviewEmail ||
+      !cleanReviewRelationship ||
       !cleanReviewTitle ||
       !cleanReviewMessage
     ) {
       return {
         statusCode: 400,
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ error: "Missing required fields." })
       };
     }
@@ -121,24 +115,16 @@ exports.handler = async function (event) {
     if (cleanReviewMessage.length < 20) {
       return {
         statusCode: 400,
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          error: "Please enter at least 20 characters in your review."
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "Please enter at least 20 characters in your review." })
       };
     }
 
     if (!Number.isInteger(normalizedRating) || normalizedRating < 1 || normalizedRating > 5) {
       return {
         statusCode: 400,
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          error: "Please select a valid rating."
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "Please select a valid rating." })
       };
     }
 
@@ -146,35 +132,31 @@ exports.handler = async function (event) {
     if (!emailIsValid) {
       return {
         statusCode: 400,
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          error: "Please enter a valid email address."
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "Please enter a valid email address." })
       };
     }
 
-    const blockedInMessage = containsBlockedWords(cleanReviewMessage);
-    const blockedInTitle = containsBlockedWords(cleanReviewTitle);
-    const blockedInName = containsBlockedWords(cleanReviewName);
-    const blockedInEmail = containsBlockedWords(cleanReviewEmail);
+    const blocked =
+      containsBlockedWords(cleanReviewMessage) ||
+      containsBlockedWords(cleanReviewTitle) ||
+      containsBlockedWords(cleanReviewName) ||
+      containsBlockedWords(cleanReviewEmail);
 
-    if (blockedInMessage || blockedInTitle || blockedInName || blockedInEmail) {
+    if (blocked) {
       return {
         statusCode: 400,
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          error: "Your review contains blocked content."
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "Your review contains blocked content." })
       };
     }
 
-    const moderationValue = yesNo(review_consent_moderation);
-    const privacyValue = yesNo(review_consent_privacy);
-    const publishValue = yesNo(review_consent_publish);
+    console.log("Validation passed");
+
+    // Use booleans here unless your DB columns are text
+    const moderationValue = !!review_consent_moderation;
+    const privacyValue = !!review_consent_privacy;
+    const publishValue = !!review_consent_publish;
 
     const { data, error } = await supabase
       .from("reviews")
@@ -194,7 +176,12 @@ exports.handler = async function (event) {
       .select("id")
       .single();
 
-    if (error) throw error;
+    if (error) {
+      console.error("Supabase insert failed:", error);
+      throw error;
+    }
+
+    console.log("Supabase insert succeeded", { reviewId: data.id });
 
     const reviewId = data.id;
 
@@ -221,48 +208,82 @@ exports.handler = async function (event) {
       review_message: cleanReviewMessage,
       review_rating: normalizedRating,
       rating: normalizedRating,
-      review_consent_moderation: moderationValue,
-      review_consent_privacy: privacyValue,
-      review_consent_publish: publishValue,
+      review_consent_moderation: moderationValue ? "Yes" : "No",
+      review_consent_privacy: privacyValue ? "Yes" : "No",
+      review_consent_publish: publishValue ? "Yes" : "No",
       approve_link,
       reject_link
     };
 
-    await emailjs.send(
-      process.env.EMAILJS_SERVICE_ID,
-      process.env.EMAILJS_PROVIDER_TEMPLATE_ID,
-      templateParams,
-      {
-        publicKey: process.env.EMAILJS_PUBLIC_KEY,
-        privateKey: process.env.EMAILJS_PRIVATE_KEY
-      }
-    );
+    let providerEmailSent = false;
+    let patientEmailSent = false;
 
-    await emailjs.send(
-      process.env.EMAILJS_SERVICE_ID,
-      process.env.EMAILJS_PATIENT_TEMPLATE_ID,
-      templateParams,
-      {
-        publicKey: process.env.EMAILJS_PUBLIC_KEY,
-        privateKey: process.env.EMAILJS_PRIVATE_KEY
-      }
-    );
+    try {
+      const providerResult = await emailjs.send(
+        process.env.EMAILJS_SERVICE_ID,
+        process.env.EMAILJS_PROVIDER_TEMPLATE_ID,
+        templateParams,
+        {
+          publicKey: process.env.EMAILJS_PUBLIC_KEY,
+          privateKey: process.env.EMAILJS_PRIVATE_KEY
+        }
+      );
+      providerEmailSent = true;
+      console.log("Provider email sent", providerResult);
+    } catch (emailErr) {
+      console.error("Provider email failed:", {
+        message: emailErr?.message,
+        text: emailErr?.text,
+        status: emailErr?.status,
+        stack: emailErr?.stack
+      });
+    }
+
+    try {
+      const patientResult = await emailjs.send(
+        process.env.EMAILJS_SERVICE_ID,
+        process.env.EMAILJS_PATIENT_TEMPLATE_ID,
+        templateParams,
+        {
+          publicKey: process.env.EMAILJS_PUBLIC_KEY,
+          privateKey: process.env.EMAILJS_PRIVATE_KEY
+        }
+      );
+      patientEmailSent = true;
+      console.log("Patient email sent", patientResult);
+    } catch (emailErr) {
+      console.error("Patient email failed:", {
+        message: emailErr?.message,
+        text: emailErr?.text,
+        status: emailErr?.status,
+        stack: emailErr?.stack
+      });
+    }
 
     return {
       statusCode: 200,
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ success: true })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        success: true,
+        providerEmailSent,
+        patientEmailSent
+      })
     };
   } catch (err) {
-    console.error("submit-review error:", err);
+    console.error("submit-review fatal error:", {
+      message: err?.message,
+      name: err?.name,
+      stack: err?.stack,
+      status: err?.status,
+      text: err?.text
+    });
+
     return {
       statusCode: 500,
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ error: "Unable to submit review." })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        error: err?.message || "Unable to submit review."
+      })
     };
   }
 };
