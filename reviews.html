@@ -1701,7 +1701,7 @@
 
 <script>
   const SUPABASE_URL = "https://qdysdamxttccpgetscai.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFkeXNkYW14dHRjY3BnZXRzY2FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNjIxNTQsImV4cCI6MjA4ODczODE1NH0.0w-9JyX9AMkWoCQ7LYuIeIdEH3Vx1XDGaglmDCOI8k8";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm14dHRjY3BnZXRzY2FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNjIxNTQsImV4cCI6MjA4ODczODE1NH0.0w-9JyX9AMkWoCQ7LYuIeIdEH3Vx1XDGaglmDCOI8k8";
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   function renderStars(rating) {
@@ -1723,28 +1723,50 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    console.log("reviews page loaded");
+
+    const $ = (sel, root = document) => root.querySelector(sel);
+
+    // Year
     const y = document.getElementById("year");
     if (y) y.textContent = String(new Date().getFullYear());
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add("active");
+    // Animations
+    const animated = Array.from(document.querySelectorAll(".animate"));
+    if (animated.length) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("active");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      animated.forEach((el, idx) => {
+        el.style.transitionDelay = `${Math.min(idx * 90, 500)}ms`;
+        observer.observe(el);
       });
-    }, { threshold: 0.1 });
+    }
 
-    document.querySelectorAll(".animate").forEach((el) => observer.observe(el));
-
+    // Hamburger
     const hamburger = document.getElementById("hamburger");
     const navMenu = document.getElementById("nav-menu");
-    const dropdownToggle = document.querySelector(".has-dropdown > .dropdown-toggle");
-    const dropdownItem = document.querySelector(".has-dropdown");
 
     if (hamburger && navMenu && !hamburger.dataset.bound) {
       hamburger.dataset.bound = "true";
 
+      const setA11y = (open) => {
+        hamburger.setAttribute("aria-expanded", String(open));
+        hamburger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      };
+
       hamburger.addEventListener("click", () => {
         const isOpen = navMenu.classList.toggle("show");
-        hamburger.setAttribute("aria-expanded", String(isOpen));
+        setA11y(isOpen);
       });
 
       navMenu.querySelectorAll("a").forEach((a) => {
@@ -1754,11 +1776,15 @@
             !a.classList.contains("dropdown-toggle")
           ) {
             navMenu.classList.remove("show");
-            hamburger.setAttribute("aria-expanded", "false");
+            setA11y(false);
           }
         });
       });
     }
+
+    // Mobile dropdown
+    const dropdownToggle = document.querySelector(".has-dropdown > .dropdown-toggle");
+    const dropdownItem = document.querySelector(".has-dropdown");
 
     if (dropdownToggle && dropdownItem) {
       dropdownToggle.addEventListener("click", function (e) {
@@ -1769,68 +1795,88 @@
       });
     }
 
+    // Approved reviews
     const approvedReviewsList = document.getElementById("approvedReviewsList");
 
     async function loadApprovedReviews() {
       if (!approvedReviewsList) return;
 
-      const { data, error } = await supabaseClient
-        .from("reviews")
-        .select("review_name, review_relationship, review_title, review_message, rating, approved_at")
-        .eq("approved", true)
-        .eq("rejected", false)
-        .order("approved_at", { ascending: false });
+      try {
+        const { data, error } = await supabaseClient
+          .from("reviews")
+          .select("review_name, review_relationship, review_title, review_message, rating, approved_at")
+          .eq("approved", true)
+          .eq("rejected", false)
+          .order("approved_at", { ascending: false });
 
-      if (error) {
-        console.error("Error loading approved reviews:", error);
+        if (error) {
+          console.error("Error loading approved reviews:", error);
+          approvedReviewsList.innerHTML = `
+            <div class="review-loading-card">
+              We were unable to load approved feedback at this time.
+            </div>
+          `;
+          return;
+        }
+
+        if (!data || !data.length) {
+          approvedReviewsList.innerHTML = `
+            <div class="review-loading-card">
+              Approved feedback will appear here once available.
+            </div>
+          `;
+          return;
+        }
+
+        approvedReviewsList.innerHTML = data.map((review) => `
+          <article class="approved-review-card">
+            <div class="approved-review-badge">Verified Patient Feedback</div>
+            <div class="approved-review-stars">${renderStars(review.rating)}</div>
+            <h4 class="approved-review-title">${escapeHtml(review.review_title)}</h4>
+            <p class="approved-review-meta">
+              ${escapeHtml(review.review_name)}${review.review_relationship ? " • " + escapeHtml(review.review_relationship) : ""}
+            </p>
+            <p class="approved-review-message">${escapeHtml(review.review_message)}</p>
+          </article>
+        `).join("");
+      } catch (err) {
+        console.error("Unexpected approved reviews error:", err);
         approvedReviewsList.innerHTML = `
           <div class="review-loading-card">
             We were unable to load approved feedback at this time.
           </div>
         `;
-        return;
       }
-
-      if (!data || !data.length) {
-        approvedReviewsList.innerHTML = `
-          <div class="review-loading-card">
-            Approved feedback will appear here once available.
-          </div>
-        `;
-        return;
-      }
-
-      approvedReviewsList.innerHTML = data.map((review) => `
-        <article class="approved-review-card">
-          <div class="approved-review-badge">Verified Patient Feedback</div>
-          <div class="approved-review-stars">${renderStars(review.rating)}</div>
-          <h4 class="approved-review-title">${escapeHtml(review.review_title)}</h4>
-          <p class="approved-review-meta">
-            ${escapeHtml(review.review_name)}${review.review_relationship ? " • " + escapeHtml(review.review_relationship) : ""}
-          </p>
-          <p class="approved-review-message">${escapeHtml(review.review_message)}</p>
-        </article>
-      `).join("");
     }
 
+    // Review form
     const reviewForm = document.getElementById("reviewForm");
     const reviewFormStatus = document.getElementById("reviewFormStatus");
     const reviewSubmitBtn = document.getElementById("reviewSubmitBtn");
 
     if (reviewForm) {
+      console.log("reviewForm found");
+
       reviewForm.addEventListener("submit", async function (e) {
         e.preventDefault();
+        console.log("reviewForm submit handler fired");
 
-        const review_name = reviewForm.review_name?.value.trim() || "";
-        const review_email = reviewForm.review_email?.value.trim() || "";
-        const review_relationship = reviewForm.review_relationship?.value.trim() || "";
-        const review_title = reviewForm.review_title?.value.trim() || "";
-        const review_message = reviewForm.review_message?.value.trim() || "";
-        const rating = Number(reviewForm.review_rating?.value || 5);
-        const review_consent_moderation = !!reviewForm.review_consent_moderation?.checked;
-        const review_consent_privacy = !!reviewForm.review_consent_privacy?.checked;
-        const review_consent_publish = !!reviewForm.review_consent_publish?.checked;
-        const website = document.getElementById("website")?.value.trim() || "";
+        const getVal = (name) =>
+          reviewForm.querySelector(`[name="${name}"]`)?.value.trim() || "";
+
+        const getChecked = (name) =>
+          !!reviewForm.querySelector(`[name="${name}"]`)?.checked;
+
+        const review_name = getVal("review_name");
+        const review_email = getVal("review_email");
+        const review_relationship = getVal("review_relationship");
+        const review_title = getVal("review_title");
+        const review_message = getVal("review_message");
+        const rating = Number(getVal("review_rating") || 5);
+        const review_consent_moderation = getChecked("review_consent_moderation");
+        const review_consent_privacy = getChecked("review_consent_privacy");
+        const review_consent_publish = getChecked("review_consent_publish");
+        const website = getVal("website");
 
         if (reviewFormStatus) {
           reviewFormStatus.className = "review-form-status";
@@ -1838,6 +1884,7 @@
         }
 
         if (!review_name || !review_email || !review_relationship || !review_title || !review_message) {
+          console.log("Stopped: missing required fields");
           if (reviewFormStatus) {
             reviewFormStatus.className = "review-form-status error";
             reviewFormStatus.textContent = "Please complete all required fields.";
@@ -1846,6 +1893,7 @@
         }
 
         if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+          console.log("Stopped: invalid rating");
           if (reviewFormStatus) {
             reviewFormStatus.className = "review-form-status error";
             reviewFormStatus.textContent = "Please select a valid rating.";
@@ -1854,6 +1902,7 @@
         }
 
         if (website !== "") {
+          console.log("Stopped: honeypot triggered");
           if (reviewFormStatus) {
             reviewFormStatus.className = "review-form-status error";
             reviewFormStatus.textContent = "Spam detected.";
@@ -1862,6 +1911,7 @@
         }
 
         if (review_message.length < 20) {
+          console.log("Stopped: review too short");
           if (reviewFormStatus) {
             reviewFormStatus.className = "review-form-status error";
             reviewFormStatus.textContent = "Please enter at least 20 characters in your review.";
@@ -1892,6 +1942,7 @@
           blockedWords.some((word) => lowerEmail.includes(word));
 
         if (hasBlockedWord) {
+          console.log("Stopped: blocked word found");
           if (reviewFormStatus) {
             reviewFormStatus.className = "review-form-status error";
             reviewFormStatus.textContent = "Your review contains blocked content.";
@@ -1917,6 +1968,8 @@
           website
         };
 
+        console.log("Submitting payload:", payload);
+
         try {
           const response = await fetch("/.netlify/functions/submit-review", {
             method: "POST",
@@ -1927,8 +1980,10 @@
           });
 
           const raw = await response.text();
-          let result = {};
+          console.log("Response status:", response.status);
+          console.log("Raw response:", raw);
 
+          let result = {};
           try {
             result = raw ? JSON.parse(raw) : {};
           } catch {
@@ -1960,12 +2015,14 @@
           }
         }
       });
+    } else {
+      console.warn("reviewForm not found");
     }
 
     loadApprovedReviews();
 
+    // Cart
     const STORAGE_KEY = "sth_cart_v1";
-    const $ = (sel, root = document) => root.querySelector(sel);
 
     const cartOverlay = $("#cartOverlay");
     const cartDrawer = $("#cartDrawer");
@@ -2080,6 +2137,7 @@
       const wrap = e.target.closest(".cart-item");
       if (!wrap) return;
       const id = wrap.getAttribute("data-id");
+      if (!id) return;
 
       if (e.target.matches("[data-inc]")) changeQty(id, +1);
       if (e.target.matches("[data-dec]")) changeQty(id, -1);

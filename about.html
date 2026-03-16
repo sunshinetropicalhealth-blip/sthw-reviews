@@ -822,34 +822,46 @@ body.about-page header #nav-menu .services-dropdown a{
 
   <!-- Header/Nav -->
   <header>
-    <div class="container header-container">
-      <!-- Logo -->
-      <a class="logo" href="index.html" aria-label="Home">
-        <img src="assets/img/STHW logo.png" alt="Sunshine Tropical Health & Wellness Logo">
-        <h1>
-          Sunshine Tropical Health
-          <span class="last-word">&amp; Wellness</span>
-        </h1>
-      </a>
+  <div class="container header-container">
+    <!-- Logo -->
+    <a class="logo" href="index.html" aria-label="Home">
+      <img src="assets/img/STHW logo.png" alt="Sunshine Tropical Health & Wellness Logo">
+      <h1>
+        Sunshine Tropical Health
+        <span class="last-word">&amp; Wellness</span>
+      </h1>
+    </a>
 
-      <!-- Hamburger (mobile) -->
-      <button class="hamburger" id="hamburger"
-        aria-label="Open menu"
-        aria-expanded="false"
-        aria-controls="nav-menu">
-        <span></span><span></span><span></span>
-      </button>
+    <!-- Hamburger (mobile) -->
+    <button
+      class="hamburger"
+      id="hamburger"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="nav-menu">
+      <span></span><span></span><span></span>
+    </button>
 
-      <!-- Navigation -->
-      <nav id="nav-menu" aria-label="Primary navigation">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a class="active" href="about.html" aria-current="page">About</a></li>
+    <!-- Navigation -->
+    <nav id="nav-menu" aria-label="Primary navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a class="active" href="about.html" aria-current="page">About</a></li>
 
-          <!-- ✅ Services dropdown added without deleting existing Services link -->
-          <li class="has-dropdown">
-            <a href="services.html" class="dropdown-toggle">Services</a>
-            <div class="services-dropdown" aria-label="Services menu">
+        <!-- Services dropdown -->
+        <li class="has-dropdown services-item">
+          <button
+            type="button"
+            class="dropdown-toggle"
+            aria-expanded="false"
+            aria-controls="services-dropdown">
+            Services
+          </button>
+
+          <div
+            class="services-dropdown"
+            id="services-dropdown"
+            aria-label="Services menu">
             <div class="dropdown-label">Our Services</div>
             <a href="services.html#primary-care">Primary Care</a>
             <a href="services.html#chronic-condition">Chronic Condition Management</a>
@@ -858,16 +870,17 @@ body.about-page header #nav-menu .services-dropdown a{
             <a href="services.html#weight-loss">Weight Loss Program</a>
             <a href="services.html#botulinum-injections">Wellness Injections</a>
             <a href="services.html#iv-nutrition">IV Nutrition Therapy</a>
+            <a href="services.html" class="all-services-link">View All Services</a>
           </div>
-          </li>
+        </li>
 
-          <li><a href="resources.html">Resources</a></li>
-          <li><a href="patient-portal.html">Patient Portal</a></li>
-          <li><a href="reviews.html">Reviews</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="patient-portal.html">Patient Portal</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
   <main id="main">
     <section class="about animate" aria-label="About the provider">

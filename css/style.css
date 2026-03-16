@@ -1860,3 +1860,350 @@ header .logo h1{
     background: rgba(255,255,255,.18);
   }
 }
+/* =========================================================
+   MOBILE MENU FIX — append at very end of style block
+   Fixes:
+   1. Services dropdown showing automatically on mobile
+   2. Mobile menu overlapping page content
+   3. Header height too small for expanded mobile nav
+   4. Better tap targets and spacing
+   ========================================================= */
+
+@media (max-width:980px){
+
+  /* let header grow naturally when menu opens */
+  body.header .header-container{
+    height: auto !important;
+    min-height: 110px;
+    align-items: center;
+    overflow: visible !important;
+    position: relative;
+  }
+
+  /* keep logo and hamburger on first row */
+  body.header .logo{
+    transform: none !important;
+    align-self: center;
+  }
+
+  body.header .hamburger{
+    margin-left: auto;
+    position: relative;
+    z-index: 30;
+  }
+
+  /* mobile nav should sit in normal page flow */
+  body.header #nav-menu{
+    display: none;
+    position: static !important;
+    width: 100%;
+    flex: 0 0 100%;
+    clear: both;
+    margin-top: 12px;
+    max-height: none !important;
+    overflow: visible !important;
+    z-index: 20;
+  }
+
+  body.header #nav-menu.show{
+    display: block !important;
+  }
+
+  /* mobile nav list */
+  body.header #nav-menu > ul{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 10px;
+    overflow: visible !important;
+    white-space: normal !important;
+    padding: 6px 0 0;
+  }
+
+  body.header #nav-menu > ul > li{
+    width: 100%;
+    position: relative;
+  }
+
+  body.header #nav-menu > ul > li > a,
+  body.header #nav-menu > ul > li > button{
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* IMPORTANT: kill desktop dropdown behavior on mobile */
+  body.header #nav-menu .services-item{
+    position: relative !important;
+  }
+
+  body.header #nav-menu .services-item .services-dropdown{
+    display: none !important;
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow: none !important;
+  }
+
+  /* only open when JS adds .open */
+  body.header #nav-menu .services-item.open .services-dropdown{
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  /* prevent hover from forcing it open on touch/mobile */
+  body.header #nav-menu .services-item:hover .services-dropdown{
+    display: none !important;
+  }
+
+  body.header #nav-menu .services-item.open:hover .services-dropdown{
+    display: flex !important;
+  }
+
+  /* submenu links */
+  body.header #nav-menu .services-item .services-dropdown a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    text-align: center;
+  }
+}
+
+/* tighter phone layout */
+@media (max-width:640px){
+
+  body.header .header-container{
+    gap: 14px;
+    padding: 12px;
+  }
+
+  body.header .logo{
+    gap: 10px;
+    max-width: calc(100% - 74px);
+  }
+
+  body.header .logo img{
+    height: clamp(72px, 18vw, 96px) !important;
+  }
+
+  body.header .logo h1{
+    font-size: clamp(14px, 3.4vw, 18px) !important;
+    line-height: 1.08;
+  }
+
+  body.header .hamburger{
+    padding: 10px;
+  }
+
+  body.header .hamburger span{
+    width: 24px;
+  }
+
+  body.header #nav-menu{
+    border-radius: 14px;
+    padding: 8px 8px 10px;
+  }
+
+  body.header #nav-menu > ul{
+    gap: 8px;
+  }
+
+  body.header #nav-menu ul li a,
+  body.header #nav-menu ul li button{
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+/* =========================================================
+   FINAL MOBILE MENU FIX
+   ========================================================= */
+
+@media (max-width:980px){
+
+  /* header must grow when nav opens */
+  body.header .header-container{
+    height: auto !important;
+    min-height: 110px;
+    overflow: visible !important;
+    align-items: center;
+    gap: 14px;
+  }
+
+  body.header .logo{
+    transform: none !important;
+    align-self: center;
+    max-width: calc(100% - 76px);
+  }
+
+  body.header .hamburger{
+    display: flex;
+    margin-left: auto;
+    position: relative;
+    z-index: 50;
+  }
+
+  /* nav stays in page flow so it pushes content down */
+  body.header #nav-menu{
+    display: none;
+    position: static !important;
+    flex: 0 0 100%;
+    width: 100%;
+    margin-top: 10px;
+    overflow: visible !important;
+    max-height: none !important;
+    z-index: 20;
+  }
+
+  body.header #nav-menu.show{
+    display: block !important;
+  }
+
+  body.header #nav-menu > ul{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 10px;
+    overflow: visible !important;
+    white-space: normal !important;
+    padding-top: 6px;
+  }
+
+  body.header #nav-menu > ul > li{
+    width: 100%;
+    position: relative;
+  }
+
+  body.header #nav-menu > ul > li > a,
+  body.header #nav-menu > ul > li > button{
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+    text-align: center;
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: inherit;
+  }
+
+  /* services row */
+  body.header #nav-menu ul li.services-item{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  body.header #nav-menu ul li.services-item > button.dropdown-toggle{
+    background: rgba(255,255,255,.14);
+    border: 1px solid rgba(255,255,255,.18);
+    color: #fff;
+    border-radius: 14px;
+    font-weight: 800;
+    padding: 12px 14px;
+    cursor: pointer;
+  }
+
+  /* FORCE submenu hidden by default on mobile */
+  body.header #nav-menu ul li.services-item .services-dropdown{
+    display: none !important;
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: none !important;
+    box-sizing: border-box;
+  }
+
+  /* only show when opened */
+  body.header #nav-menu ul li.services-item.open .services-dropdown{
+    display: flex !important;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* stop desktop hover behavior from opening it on phones */
+  body.header #nav-menu ul li.services-item:hover .services-dropdown,
+  body.header #nav-menu ul li.has-dropdown:hover .services-dropdown{
+    display: none !important;
+  }
+
+  body.header #nav-menu ul li.services-item.open:hover .services-dropdown{
+    display: flex !important;
+  }
+
+  body.header #nav-menu ul li.services-item .services-dropdown a{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    text-align: center;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.14);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500 !important;
+  }
+
+  body.header #nav-menu ul li.services-item .services-dropdown a:hover{
+    background: rgba(255,255,255,.18);
+  }
+
+  body.header #nav-menu ul li.services-item .dropdown-label{
+    text-align: center;
+    color: rgba(255,255,255,.86);
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    padding: 4px 0 6px;
+  }
+}
+
+@media (max-width:640px){
+  body.header .header-container{
+    padding: 12px;
+  }
+
+  body.header .logo img{
+    height: clamp(72px, 18vw, 96px) !important;
+  }
+
+  body.header .logo h1{
+    font-size: clamp(14px, 3.4vw, 18px) !important;
+    line-height: 1.08;
+  }
+
+  body.header .hamburger{
+    padding: 10px;
+  }
+
+  body.header .hamburger span{
+    width: 24px;
+  }
+
+  body.header #nav-menu{
+    padding: 8px 8px 10px;
+  }
+}

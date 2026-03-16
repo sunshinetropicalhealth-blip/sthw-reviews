@@ -1103,3 +1103,83 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+  document.addEventListener("DOMContentLoaded", function () {
+    const hamburger = document.querySelector("body.header .hamburger");
+    const navMenu = document.querySelector("body.header #nav-menu");
+    const servicesItem = document.querySelector("body.header .services-item");
+    const servicesToggle = document.querySelector("body.header .services-item > a, body.header .services-item > button");
+
+    if (hamburger && navMenu) {
+      hamburger.addEventListener("click", function () {
+        const isOpen = navMenu.classList.toggle("show");
+        hamburger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+
+        if (!isOpen && servicesItem) {
+          servicesItem.classList.remove("open");
+        }
+      });
+    }
+
+    if (servicesItem && servicesToggle && window.innerWidth <= 980) {
+      servicesToggle.addEventListener("click", function (e) {
+        const href = servicesToggle.getAttribute("href");
+
+        /* if Services is a parent link, use first tap to open submenu */
+        if (href === "#" || href === "" || servicesToggle.tagName.toLowerCase() === "button") {
+          e.preventDefault();
+          servicesItem.classList.toggle("open");
+        }
+      });
+    }
+
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 980) {
+        if (navMenu) navMenu.classList.remove("show");
+        if (servicesItem) servicesItem.classList.remove("open");
+        if (hamburger) hamburger.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("nav-menu");
+    const servicesItem = document.querySelector(".services-item");
+    const servicesToggle = document.querySelector(".services-item .dropdown-toggle");
+
+    if (hamburger && navMenu) {
+      hamburger.addEventListener("click", function () {
+        const isOpen = navMenu.classList.toggle("show");
+        hamburger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        hamburger.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+
+        if (!isOpen && servicesItem && servicesToggle) {
+          servicesItem.classList.remove("open");
+          servicesToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+
+    if (servicesItem && servicesToggle) {
+      servicesToggle.addEventListener("click", function () {
+        if (window.innerWidth <= 980) {
+          const isOpen = servicesItem.classList.toggle("open");
+          servicesToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        } else {
+          window.location.href = "services.html";
+        }
+      });
+    }
+
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 980) {
+        if (navMenu) navMenu.classList.remove("show");
+        if (hamburger) {
+          hamburger.setAttribute("aria-expanded", "false");
+          hamburger.setAttribute("aria-label", "Open menu");
+        }
+        if (servicesItem) servicesItem.classList.remove("open");
+        if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
