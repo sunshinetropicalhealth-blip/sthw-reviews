@@ -259,6 +259,7 @@
       return {
         from_name,
         email,
+        reply_to: email,
         phone,
         message,
         page: window.location.href,
