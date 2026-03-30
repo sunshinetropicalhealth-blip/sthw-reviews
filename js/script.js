@@ -134,14 +134,19 @@
       if (navMenu && !navMenu.dataset.linkCloseBound) {
         navMenu.dataset.linkCloseBound = "true";
 
-        navMenu.addEventListener("click", (e) => {
-          const link = e.target.closest("a");
-          if (!link) return;
+  navMenu.addEventListener("click", (e) => {
+  const link = e.target.closest("a");
+  if (!link) return;
 
-          if (isMobileNav()) {
-            closeMobileMenu();
-          }
-        });
+  // ✅ DO NOT close if clicking inside services dropdown
+  if (e.target.closest(".services-dropdown")) {
+    return;
+  }
+
+  if (isMobileNav()) {
+    closeMobileMenu();
+  }
+});
       }
 
       document.addEventListener("click", (e) => {
