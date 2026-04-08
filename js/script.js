@@ -44,132 +44,245 @@
       .replace(/'/g, "&#39;");
   }
 
-  // =========================================================
-  // 0) GLOBAL UI
-  // =========================================================
-  (function globalUiModule() {
-    document.addEventListener("DOMContentLoaded", () => {
-      // Footer year
-      const yearEl = document.getElementById("year");
-      if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+// =========================================================
+// 0) GLOBAL UI
+// =========================================================
+(function globalUiModule() {
+  document.addEventListener("DOMContentLoaded", () => {
+    // Footer year
+    const yearEl = document.getElementById("year");
+    if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-      // Scroll animations
-      const animated = Array.from(document.querySelectorAll(".animate"));
-      if (animated.length) {
-        if ("IntersectionObserver" in window) {
-          const observer = new IntersectionObserver(
-            (entries) => {
-              entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                  entry.target.classList.add("active");
-                  observer.unobserve(entry.target);
-                }
-              });
-            },
-            { threshold: 0.12 }
-          );
+    // Scroll animations
+    const animated = Array.from(document.querySelectorAll(".animate"));
+    if (animated.length) {
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        );
 
-          animated.forEach((el, idx) => {
-            el.style.transitionDelay = `${Math.min(idx * 90, 500)}ms`;
-            observer.observe(el);
-          });
-        } else {
-          animated.forEach((el) => el.classList.add("active"));
-        }
+        animated.forEach((el, idx) => {
+          el.style.transitionDelay = `${Math.min(idx * 90, 500)}ms`;
+          observer.observe(el);
+        });
+      } else {
+        animated.forEach((el) => el.classList.add("active"));
       }
+    }
 
-      // Universal header/nav
-      const hamburger = document.getElementById("hamburger");
-      const navMenu = document.getElementById("nav-menu");
-      const servicesItem = document.querySelector(".services-item");
-      const servicesToggle = servicesItem
-        ? servicesItem.querySelector(".dropdown-toggle")
-        : null;
+    // Universal header/nav
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("nav-menu");
+    const servicesItem = document.querySelector("#nav-menu .services-item");
+    const servicesToggle = servicesItem
+      ? servicesItem.querySelector(".dropdown-toggle")
+      : null;
+    const servicesDropdown = servicesItem
+      ? servicesItem.querySelector(".services-dropdown")
+      : null;
 
-      const setHamburgerState = (open) => {
-        if (!hamburger) return;
-        hamburger.setAttribute("aria-expanded", String(open));
-        hamburger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-      };
+    const isMobileNav = () =>
+      window.matchMedia("(max-width: 980px)").matches;
 
-      const closeServicesDropdown = () => {
-        if (servicesItem) servicesItem.classList.remove("open");
+    const setHamburgerState = (open) => {
+      if (!hamburger) return;
+      hamburger.setAttribute("aria-expanded", String(open));
+      hamburger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+
+    const openMobileMenu = () => {
+      if (!navMenu) return;
+      navMenu.classList.add("show");
+      setHamburgerState(true);
+    };
+
+    const openServicesDropdown = () => {
+      if (!servicesItem) return;
+      servicesItem.classList.add("open");
+      if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "true");
+    };
+
+    const closeServicesDropdown = () => {
+      if (!servicesItem) return;
+      servicesItem.classList.remove("open");
+      if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "false");
+    };
+
+    const closeMobileMenu = () => {
+      if (navMenu) navMenu.classList.remove("show");
+      setHamburgerState(false);
+      closeServicesDropdown();
+    };
+
+    // ---------------- Desktop hover stability ----------------
+    let desktopCloseTimer = null;
+
+    const clearDesktopCloseTimer = () => {
+      if (desktopCloseTimer) {
+        clearTimeout(desktopCloseTimer);
+        desktopCloseTimer = null;
+      }
+    };
+
+    const openDesktopDropdown = () => {
+      if (!servicesItem || isMobileNav()) return;
+      clearDesktopCloseTimer();
+      servicesItem.classList.add("keep-open");
+      if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "true");
+    };
+
+    const closeDesktopDropdownSoon = () => {
+      if (!servicesItem || isMobileNav()) return;
+      clearDesktopCloseTimer();
+      desktopCloseTimer = setTimeout(() => {
+        servicesItem.classList.remove("keep-open");
         if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "false");
-      };
+      }, 220);
+    };
 
-      const closeMobileMenu = () => {
-        if (navMenu) navMenu.classList.remove("show");
-        setHamburgerState(false);
-        closeServicesDropdown();
-      };
+    // ---------------- Hamburger ----------------
+    if (hamburger && navMenu && !hamburger.dataset.bound) {
+      hamburger.dataset.bound = "true";
 
-      if (hamburger && navMenu && !hamburger.dataset.bound) {
-        hamburger.dataset.bound = "true";
+      hamburger.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-        hamburger.addEventListener("click", () => {
-          const isOpen = navMenu.classList.toggle("show");
-          setHamburgerState(isOpen);
+        const isOpen = navMenu.classList.toggle("show");
+        setHamburgerState(isOpen);
 
-          if (!isOpen) closeServicesDropdown();
-        });
-      }
+        if (!isOpen) closeServicesDropdown();
+      });
+    }
 
-      if (servicesItem && servicesToggle && !servicesToggle.dataset.bound) {
-        servicesToggle.dataset.bound = "true";
+    // ---------------- Services toggle ----------------
+    if (servicesItem && servicesToggle && !servicesToggle.dataset.bound) {
+      servicesToggle.dataset.bound = "true";
 
-        servicesToggle.addEventListener("click", (e) => {
-          if (isMobileNav()) {
-            e.preventDefault();
-            e.stopPropagation();
-            const isOpen = servicesItem.classList.toggle("open");
-            servicesToggle.setAttribute("aria-expanded", String(isOpen));
-          } else if (servicesToggle.tagName.toLowerCase() === "button") {
-            if (!document.body.classList.contains("services-page")) {
-              window.location.href = "services.html";
-            }
+      servicesToggle.addEventListener("click", (e) => {
+        if (isMobileNav()) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          openMobileMenu();
+
+          const isOpen = servicesItem.classList.contains("open");
+          if (isOpen) {
+            closeServicesDropdown();
+          } else {
+            openServicesDropdown();
           }
-        });
-      }
+          return;
+        }
 
-      if (navMenu && !navMenu.dataset.linkCloseBound) {
-        navMenu.dataset.linkCloseBound = "true";
-
-  navMenu.addEventListener("click", (e) => {
-  const link = e.target.closest("a");
-  if (!link) return;
-
-  // ✅ DO NOT close if clicking inside services dropdown
-  if (e.target.closest(".services-dropdown")) {
-    return;
-  }
-
-  if (isMobileNav()) {
-    closeMobileMenu();
-  }
-});
-      }
-
-      document.addEventListener("click", (e) => {
+        // Desktop button behavior:
+        // keep dropdown open while hovering/focusing;
+        // clicking goes to services page if not already there
         if (
-          isMobileNav() &&
-          servicesItem &&
-          servicesItem.classList.contains("open") &&
-          !servicesItem.contains(e.target)
+          servicesToggle.tagName.toLowerCase() === "button" &&
+          !document.body.classList.contains("services-page")
         ) {
-          closeServicesDropdown();
+          window.location.href = "services.html";
         }
       });
 
+      // Desktop hover support with delay
+      servicesItem.addEventListener("mouseenter", () => {
+        if (!isMobileNav()) openDesktopDropdown();
+      });
+
+      servicesItem.addEventListener("mouseleave", () => {
+        if (!isMobileNav()) closeDesktopDropdownSoon();
+      });
+
+      servicesToggle.addEventListener("focus", () => {
+        if (!isMobileNav()) openDesktopDropdown();
+      });
+
+      servicesItem.addEventListener("focusin", () => {
+        if (!isMobileNav()) openDesktopDropdown();
+      });
+
+      servicesItem.addEventListener("focusout", () => {
+        if (!isMobileNav()) closeDesktopDropdownSoon();
+      });
+
+      if (servicesDropdown) {
+        servicesDropdown.addEventListener("mouseenter", () => {
+          if (!isMobileNav()) openDesktopDropdown();
+        });
+
+        servicesDropdown.addEventListener("mouseleave", () => {
+          if (!isMobileNav()) closeDesktopDropdownSoon();
+        });
+      }
+    }
+
+    // ---------------- Mobile link closing ----------------
+    if (navMenu && !navMenu.dataset.linksBound) {
+      navMenu.dataset.linksBound = "true";
+
+      navMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          if (isMobileNav()) {
+            closeMobileMenu();
+          }
+        });
+      });
+    }
+
+    // ---------------- Outside click ----------------
+    if (!document.body.dataset.mobileNavOutsideBound) {
+      document.body.dataset.mobileNavOutsideBound = "true";
+
+      document.addEventListener("click", (e) => {
+        if (isMobileNav()) {
+          const clickedInsideNav = navMenu && navMenu.contains(e.target);
+          const clickedHamburger = hamburger && hamburger.contains(e.target);
+
+          if (!clickedInsideNav && !clickedHamburger) {
+            closeMobileMenu();
+          }
+          return;
+        }
+
+        // Desktop outside click closes hover-pinned dropdown
+        if (
+          servicesItem &&
+          !servicesItem.contains(e.target)
+        ) {
+          servicesItem.classList.remove("keep-open");
+          if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+
+    // ---------------- Resize reset ----------------
+    if (!window.__STHW_NAV_RESIZE_BOUND__) {
+      window.__STHW_NAV_RESIZE_BOUND__ = true;
+
       window.addEventListener("resize", () => {
+        clearDesktopCloseTimer();
+
         if (!isMobileNav()) {
           if (navMenu) navMenu.classList.remove("show");
           setHamburgerState(false);
           closeServicesDropdown();
+        } else if (servicesItem) {
+          servicesItem.classList.remove("keep-open");
         }
       });
-    });
-  })();
-
+    }
+  });
+})();
   // =========================================================
   // 1) EMAILJS — General Questions (Non-Medical)
   // Form: #appointmentForm

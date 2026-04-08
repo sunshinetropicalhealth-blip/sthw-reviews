@@ -119,7 +119,7 @@
       <div class="hero-content">
         <h1>Medical Weight Loss in Polk County, Florida</h1>
         <p>
-          Sunshine Tropical Health & Wellness offers a personalized medical weight loss program for patients in Polk County, Florida.
+          At Sunshine Tropical Health & Wellness we come to you! We offer a personalized medical weight loss program for patients in Polk County, Florida.
           We focus on realistic progress, provider guidance, and a plan tailored to your health goals.
         </p>
       </div>
@@ -136,8 +136,8 @@
     <section class="service-section animate" aria-label="Consultation-based care">
       <h2>Start with a Consultation</h2>
       <p>
-        Your current services page shows weight loss as a consultation-based service, with follow-on treatment options such as semaglutide and tirzepatide.
-        This page is built to support that same patient journey. :contentReference[oaicite:3]{index=3}
+        For first time patients we require a consultation appointment to determine best quality of care and verification. This consists of follow-on treatment options such as semaglutide and tirzepatide.
+        Start your wellness journey today.
       </p>
     </section>
 
@@ -223,86 +223,6 @@
     </div>
   </footer>
 
-  <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const hamburger = document.getElementById("hamburger");
-  const navMenu = document.getElementById("nav-menu");
-  const servicesItem = document.querySelector(".services-item");
-  const servicesToggle = servicesItem ? servicesItem.querySelector(".dropdown-toggle") : null;
-  const servicesDropdown = document.getElementById("services-dropdown");
-
-  const setMenuA11y = (open) => {
-    if (!hamburger) return;
-    hamburger.setAttribute("aria-expanded", String(open));
-    hamburger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  };
-
-  const closeServicesDropdown = () => {
-    if (servicesItem) servicesItem.classList.remove("open");
-    if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "false");
-  };
-
-  if (hamburger && navMenu && !hamburger.dataset.bound) {
-    hamburger.dataset.bound = "true";
-
-    hamburger.addEventListener("click", () => {
-      const isOpen = navMenu.classList.toggle("show");
-      setMenuA11y(isOpen);
-
-      if (!isOpen) closeServicesDropdown();
-    });
-
-    navMenu.querySelectorAll("a").forEach((a) => {
-      a.addEventListener("click", () => {
-        if (window.innerWidth <= 980) {
-          navMenu.classList.remove("show");
-          setMenuA11y(false);
-          closeServicesDropdown();
-        }
-      });
-    });
-  }
-
-  if (servicesItem && servicesToggle && !servicesToggle.dataset.bound) {
-    servicesToggle.dataset.bound = "true";
-
-    servicesToggle.addEventListener("click", (e) => {
-      if (window.innerWidth <= 980) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const isOpen = servicesItem.classList.toggle("open");
-        servicesToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      } else {
-        window.location.href = "services.html";
-      }
-    });
-
-    if (servicesDropdown) {
-      servicesDropdown.addEventListener("click", (e) => {
-        e.stopPropagation();
-      });
-    }
-
-    document.addEventListener("click", (e) => {
-      if (
-        window.innerWidth <= 980 &&
-        servicesItem.classList.contains("open") &&
-        !servicesItem.contains(e.target)
-      ) {
-        closeServicesDropdown();
-      }
-    });
-
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 980) {
-        navMenu?.classList.remove("show");
-        setMenuA11y(false);
-        closeServicesDropdown();
-      }
-    });
-  }
-});
-</script>
+  <script src="js/script.js"></script>
 </body>
 </html>

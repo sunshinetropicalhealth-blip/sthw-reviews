@@ -158,13 +158,14 @@
     </section>
 
 <section class="seo-service-links">
-  <h2>We Service Polk County, Florida</h2>
+  <h2>We Service all Florida for Telehealth & At home visits in Polk County</h2>
   <ul>
     <li><a href="telehealth-polk-county-fl.html">Telehealth</a></li>
     <li><a href="at-home-doctor-polk-county-fl.html">At-Home Doctor Visits</a></li>
     <li><a href="iv-therapy-polk-county-fl.html">IV Therapy</a></li>
-    <li><a href="weight-loss-polk-county-fl.html">Medical Weight Loss/ Shot Treatments</a></li>
+    <li><a href="weight-loss-polk-county-fl.html">Medical Weight Loss</a></li>
     <li><a href="primary-care-polk-county-fl.html">Primary Care</a></li>
+    <li><a href="shot-treatment-polk-county-fl.html">Wellness Shot Treatments</a></li>
   </ul>
 </section>
 
@@ -377,8 +378,8 @@
   </footer>
 
   <!-- ✅ INLINE SCRIPT (Services-only) — no external js/script.js needed on this page -->
-  <script>
-document.addEventListener('DOMContentLoaded', () => {
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
   // footer year
@@ -386,28 +387,39 @@ document.addEventListener('DOMContentLoaded', () => {
   if (y) y.textContent = String(new Date().getFullYear());
 
   // Animate on scroll
-  const animated = Array.from(document.querySelectorAll('.animate'));
+  const animated = Array.from(document.querySelectorAll(".animate"));
   if (animated.length) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
 
-    animated.forEach((el, idx) => {
-      el.style.transitionDelay = `${Math.min(idx * 90, 500)}ms`;
-      observer.observe(el);
-    });
+      animated.forEach((el, idx) => {
+        el.style.transitionDelay = `${Math.min(idx * 90, 500)}ms`;
+        observer.observe(el);
+      });
+    } else {
+      animated.forEach((el) => el.classList.add("active"));
+    }
   }
 
-  // Hamburger menu + Services dropdown
+  // nav
   const hamburger = document.getElementById("hamburger");
   const navMenu = document.getElementById("nav-menu");
-  const servicesItem = document.querySelector(".services-item");
-  const servicesToggle = servicesItem ? servicesItem.querySelector(".dropdown-toggle") : null;
+  const servicesItem = document.querySelector("#nav-menu .services-item");
+  const servicesToggle = servicesItem
+    ? servicesItem.querySelector(".dropdown-toggle")
+    : null;
+  const servicesDropdown = servicesItem
+    ? servicesItem.querySelector(".services-dropdown")
+    : null;
+
+  const isMobileNav = () => window.matchMedia("(max-width: 980px)").matches;
 
   const setMenuA11y = (open) => {
     if (!hamburger) return;
@@ -415,31 +427,66 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   };
 
+  const openMobileMenu = () => {
+    if (!navMenu) return;
+    navMenu.classList.add("show");
+    setMenuA11y(true);
+  };
+
+  const openServicesDropdown = () => {
+    if (!servicesItem) return;
+    servicesItem.classList.add("open");
+    if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "true");
+  };
+
   const closeServicesDropdown = () => {
-    if (servicesItem) servicesItem.classList.remove("open");
+    if (!servicesItem) return;
+    servicesItem.classList.remove("open");
     if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "false");
+  };
+
+  const closeMobileMenu = () => {
+    if (navMenu) navMenu.classList.remove("show");
+    setMenuA11y(false);
+    closeServicesDropdown();
+  };
+
+  let desktopCloseTimer = null;
+
+  const clearDesktopCloseTimer = () => {
+    if (desktopCloseTimer) {
+      clearTimeout(desktopCloseTimer);
+      desktopCloseTimer = null;
+    }
+  };
+
+  const openDesktopDropdown = () => {
+    if (!servicesItem || isMobileNav()) return;
+    clearDesktopCloseTimer();
+    servicesItem.classList.add("keep-open");
+    if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "true");
+  };
+
+  const closeDesktopDropdownSoon = () => {
+    if (!servicesItem || isMobileNav()) return;
+    clearDesktopCloseTimer();
+    desktopCloseTimer = setTimeout(() => {
+      servicesItem.classList.remove("keep-open");
+      if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "false");
+    }, 220);
   };
 
   if (hamburger && navMenu && !hamburger.dataset.bound) {
     hamburger.dataset.bound = "true";
 
-    hamburger.addEventListener("click", () => {
+    hamburger.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
       const isOpen = navMenu.classList.toggle("show");
       setMenuA11y(isOpen);
 
-      if (!isOpen) {
-        closeServicesDropdown();
-      }
-    });
-
-    navMenu.querySelectorAll("a").forEach((a) => {
-      a.addEventListener("click", () => {
-        if (window.matchMedia("(max-width: 980px)").matches) {
-          navMenu.classList.remove("show");
-          setMenuA11y(false);
-          closeServicesDropdown();
-        }
-      });
+      if (!isOpen) closeServicesDropdown();
     });
   }
 
@@ -447,33 +494,97 @@ document.addEventListener('DOMContentLoaded', () => {
     servicesToggle.dataset.bound = "true";
 
     servicesToggle.addEventListener("click", (e) => {
-      if (window.innerWidth <= 980) {
+      if (isMobileNav()) {
         e.preventDefault();
-        const isOpen = servicesItem.classList.toggle("open");
-        servicesToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      } else {
-        window.location.href = "services.html";
+        e.stopPropagation();
+
+        openMobileMenu();
+
+        const isOpen = servicesItem.classList.contains("open");
+        if (isOpen) {
+          closeServicesDropdown();
+        } else {
+          openServicesDropdown();
+        }
+        return;
       }
     });
 
-    document.addEventListener("click", (e) => {
-      if (
-        window.innerWidth <= 980 &&
-        servicesItem.classList.contains("open") &&
-        !servicesItem.contains(e.target)
-      ) {
-        closeServicesDropdown();
-      }
+    servicesItem.addEventListener("mouseenter", () => {
+      if (!isMobileNav()) openDesktopDropdown();
     });
 
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 980) {
-        navMenu?.classList.remove("show");
-        setMenuA11y(false);
-        closeServicesDropdown();
-      }
+    servicesItem.addEventListener("mouseleave", () => {
+      if (!isMobileNav()) closeDesktopDropdownSoon();
+    });
+
+    servicesToggle.addEventListener("focus", () => {
+      if (!isMobileNav()) openDesktopDropdown();
+    });
+
+    servicesItem.addEventListener("focusin", () => {
+      if (!isMobileNav()) openDesktopDropdown();
+    });
+
+    servicesItem.addEventListener("focusout", () => {
+      if (!isMobileNav()) closeDesktopDropdownSoon();
+    });
+
+    if (servicesDropdown) {
+      servicesDropdown.addEventListener("mouseenter", () => {
+        if (!isMobileNav()) openDesktopDropdown();
+      });
+
+      servicesDropdown.addEventListener("mouseleave", () => {
+        if (!isMobileNav()) closeDesktopDropdownSoon();
+      });
+    }
+  }
+
+  if (navMenu && !navMenu.dataset.linksBound) {
+    navMenu.dataset.linksBound = "true";
+
+    navMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (isMobileNav()) {
+          closeMobileMenu();
+        }
+      });
     });
   }
+
+  document.addEventListener("click", (e) => {
+    if (isMobileNav()) {
+      const clickedInsideNav = navMenu && navMenu.contains(e.target);
+      const clickedHamburger = hamburger && hamburger.contains(e.target);
+
+      if (!clickedInsideNav && !clickedHamburger) {
+        closeMobileMenu();
+      }
+      return;
+    }
+
+    if (servicesItem && !servicesItem.contains(e.target)) {
+      servicesItem.classList.remove("keep-open");
+      if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    clearDesktopCloseTimer();
+
+    if (!isMobileNav()) {
+      navMenu?.classList.remove("show");
+      setMenuA11y(false);
+      closeServicesDropdown();
+    } else if (servicesItem) {
+      servicesItem.classList.remove("keep-open");
+    }
+  });
+
+
+  // ===== KEEP THE REST OF YOUR STORE + CART CODE BELOW THIS LINE =====
+
 
   // Store + Cart (localStorage)
   const SHOT_TREATMENTS = [

@@ -114,9 +114,9 @@
   <main>
     <section class="hero animate" aria-label="Primary care in Polk County">
       <div class="hero-content">
-        <h1>Primary Care in Polk County, Florida</h1>
+        <h1>Telehealth Primary Care & At-Home Primary care in Florida</h1>
         <p>
-          Sunshine Tropical Health & Wellness provides patient-centered primary care for individuals and families in Polk County, Florida.
+          At Sunshine Tropical Health & Wellness we come to you. We provide at home patient-centered primary care for individuals and families in Polk County, Florida, and Telehealth serives all over Florida.
           We focus on ongoing wellness, preventive support, and clear care planning.
         </p>
       </div>
@@ -134,8 +134,7 @@
       <h2>Support for Ongoing Health Needs</h2>
       <p>
         We also support patients managing chronic conditions with follow-up care, monitoring, medication review,
-        and practical wellness guidance. Your current services page already emphasizes this chronic care support,
-        and this location page is designed to strengthen local SEO around it. :contentReference[oaicite:4]{index=4}
+        and practical wellness guidance. This added service can be stacked with our at home service and our primary care service.
       </p>
     </section>
 
@@ -143,14 +142,14 @@
       <h2>Flexible Care Options</h2>
       <p>
         For many patients, primary care can be supported through telehealth, making care easier to access throughout Florida.
-        Your site currently notes that telehealth is the active service option, so this page keeps that message consistent. :contentReference[oaicite:5]{index=5}
+        This is tailered around the patient needs and best quality of care. Here at Sunshine Tropical health we put patients first.
       </p>
     </section>
 
     <section class="service-section animate" aria-label="Areas served">
       <h2>Serving Polk County Communities</h2>
       <p>
-        We serve patients in Lakeland, Winter Haven, Bartow, Davenport, Lake Wales, Haines City, Auburndale,
+        We serve patients all over Florida for telehealth and at home patients in Lakeland, Winter Haven, Bartow, Davenport, Lake Wales, Haines City, Auburndale,
         and surrounding Polk County communities.
       </p>
     </section>
@@ -158,7 +157,7 @@
     <section class="service-section animate" aria-label="Book primary care">
       <h2>Book a Primary Care Appointment</h2>
       <p>
-        If you are searching for primary care in Polk County, Florida, Sunshine Tropical Health & Wellness is ready to help.
+        If you are searching for primary care in Florida, Sunshine Tropical Health & Wellness is ready to help.
       </p>
       <div class="service-cta">
         <a href="patient-portal.html#portal-section">Book Appointment ↓</a>
@@ -229,86 +228,6 @@
     </div>
   </footer>
 
-  <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const hamburger = document.getElementById("hamburger");
-  const navMenu = document.getElementById("nav-menu");
-  const servicesItem = document.querySelector(".services-item");
-  const servicesToggle = servicesItem ? servicesItem.querySelector(".dropdown-toggle") : null;
-  const servicesDropdown = document.getElementById("services-dropdown");
-
-  const setMenuA11y = (open) => {
-    if (!hamburger) return;
-    hamburger.setAttribute("aria-expanded", String(open));
-    hamburger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  };
-
-  const closeServicesDropdown = () => {
-    if (servicesItem) servicesItem.classList.remove("open");
-    if (servicesToggle) servicesToggle.setAttribute("aria-expanded", "false");
-  };
-
-  if (hamburger && navMenu && !hamburger.dataset.bound) {
-    hamburger.dataset.bound = "true";
-
-    hamburger.addEventListener("click", () => {
-      const isOpen = navMenu.classList.toggle("show");
-      setMenuA11y(isOpen);
-
-      if (!isOpen) closeServicesDropdown();
-    });
-
-    navMenu.querySelectorAll("a").forEach((a) => {
-      a.addEventListener("click", () => {
-        if (window.innerWidth <= 980) {
-          navMenu.classList.remove("show");
-          setMenuA11y(false);
-          closeServicesDropdown();
-        }
-      });
-    });
-  }
-
-  if (servicesItem && servicesToggle && !servicesToggle.dataset.bound) {
-    servicesToggle.dataset.bound = "true";
-
-    servicesToggle.addEventListener("click", (e) => {
-      if (window.innerWidth <= 980) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const isOpen = servicesItem.classList.toggle("open");
-        servicesToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      } else {
-        window.location.href = "services.html";
-      }
-    });
-
-    if (servicesDropdown) {
-      servicesDropdown.addEventListener("click", (e) => {
-        e.stopPropagation();
-      });
-    }
-
-    document.addEventListener("click", (e) => {
-      if (
-        window.innerWidth <= 980 &&
-        servicesItem.classList.contains("open") &&
-        !servicesItem.contains(e.target)
-      ) {
-        closeServicesDropdown();
-      }
-    });
-
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 980) {
-        navMenu?.classList.remove("show");
-        setMenuA11y(false);
-        closeServicesDropdown();
-      }
-    });
-  }
-});
-</script>
+  <script src="js/script.js"></script>
 </body>
 </html>
