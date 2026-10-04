@@ -1351,7 +1351,7 @@
 
       const SUPABASE_URL = "https://qdysdamxttccpgetscai.supabase.co";
       const SUPABASE_ANON_KEY =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3FkeXNkYW14dHRjY3BnZXRzY2FpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJyZWYiOiJxZHlzZGFteHR0Y2NwZ2V0c2NhaSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzczMTYyMTU0LCJleHAiOjIwODg3MzgxNTR9.0w-9JyX9AMkWoCQ7LYuIeIdEH3Vx1XDGaglmDCOI8k8";
+        "sb_publishable_gVudWjDn4DkgOGPGnPrV7Q_CQ5NZAgO";
 
       const supabaseLib = window.supabase;
       const supabaseClient = supabaseLib
